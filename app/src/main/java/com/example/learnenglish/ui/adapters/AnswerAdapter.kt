@@ -1,17 +1,22 @@
 package com.example.learnenglish.ui.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 
 class AnswerAdapter(private var listAnswers: List<String>) :
     RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
 
-    fun setCartsList(listAnswers: List<String>) {
+    private var selectedPosition = -1
+    private val normalColorRes = R.color.main
+    private val selectedColorRes = R.color.selected
+    fun setAnswersList(listAnswers: List<String>) {
         this.listAnswers = listAnswers
     }
     class AnswerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -29,9 +34,24 @@ class AnswerAdapter(private var listAnswers: List<String>) :
         return listAnswers.size
     }
 
+    @SuppressLint("RecyclerView")
     override fun onBindViewHolder(holder: AnswerViewHolder, position: Int) {
         val item = listAnswers[position]
 
         holder.textViewOption.text = item
+
+        if (position == selectedPosition) {
+            holder.cardItem.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, selectedColorRes))
+        } else {
+            holder.cardItem.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, normalColorRes))
+        }
+
+        holder.cardItem.setOnClickListener {
+            if (selectedPosition != position) {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = position
+                notifyItemChanged(position)
+            }
+        }
     }
 }

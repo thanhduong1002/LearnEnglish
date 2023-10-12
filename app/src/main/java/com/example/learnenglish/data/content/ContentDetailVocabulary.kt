@@ -91,8 +91,8 @@ class ContentDetailVocabulary {
                 "contract",
                 "Hợp đồng",
                 "/kənˈtrakt/",
-                "Are you going to break the agreement with companion?",
-                "Bạn định phá vỡ thỏa thuận với bạn đồng hành?",
+                "The company signed a contract with a new supplier to ensure a steady source of materials for their production.",
+                "Công ty đã ký kết hợp đồng với một nhà cung cấp mới để đảm bảo nguồn cung cấp vật liệu ổn định cho quy trình sản xuất của họ.",
                 "Contract"
             ),
             DetailVocabulary(
@@ -107,8 +107,8 @@ class ContentDetailVocabulary {
                 "agreement",
                 "sự đồng ý, thỏa thuận với nhau",
                 "/ə’gri:mənt/",
-                "According to the consensus, the caterer will also supply the flowers for the event.",
-                "Theo thống nhất, nhà cung cấp thực phẩm cũng sẽ cung cấp hoa cho sự kiện.",
+                "The two companies reached a mutual agreement to collaborate on the project.",
+                "Tổng công ty đã đạt được một thỏa thuận hợp tác để làm việc chung trên dự án.",
                 "Contract"
             ),
             DetailVocabulary(
@@ -123,8 +123,8 @@ class ContentDetailVocabulary {
                 "cancellation",
                 "sự bãi bỏ, hủy bỏ",
                 "/,kænse’leiʃn/",
-                "The elimination of her flight caused her problems for the rest of the week.",
-                "Việc loại bỏ chuyến bay đã khiến cô gặp khó khăn trong thời gian còn lại của tuần.",
+                "The cancellation of the flight due to bad weather left passengers stranded at the airport.",
+                "Sự hủy chuyến bay do thời tiết xấu đã để lại hành khách bị kẹt tại sân bay.",
                 "Contract"
             ),
 
@@ -132,8 +132,8 @@ class ContentDetailVocabulary {
                 "access",
                 "quyền truy cập, sự tiếp cận",
                 "/ˈækses/",
-                "I cannot easily get connected to the Internet.",
-                "Tôi không thể dễ dàng kết nối với Internet.",
+                "There is a school computer that allows students to access the Internet for additional research for their lessons.",
+                "Có một máy tính trường học cho phép học sinh truy cập Internet để nghiên cứu thêm thông tin cho bài giảng.",
                 "Computer"
             ),
             DetailVocabulary(
@@ -173,24 +173,24 @@ class ContentDetailVocabulary {
                 "characteristic",
                 "đặc trưng, đặc điểm, những điểm đặc thù, cá biệt",
                 "/,kæriktə’ristik/",
-                "One character trait of the store is that it is slow in mailing refund checks.",
-                "Một đặc điểm của cửa hàng là gửi séc hoàn tiền chậm.",
+                "The characteristic blue color of the ocean on a sunny day is one of the most beautiful sights in the world.",
+                "Đặc điểm màu xanh biển trên một ngày nắng là một trong những hình ảnh đẹp nhất trên thế giới.",
                 "Warranties"
             ),
             DetailVocabulary(
                 "consequence",
                 "kết quả, hậu quả, hệ quả; những tầm quan trọng, tính trọng đại",
                 "/’kɔnsikwəns/",
-                "As a direct result of not having seen a dentist for several years, Lydia had several cavities.",
-                "Hậu quả trực tiếp của việc không gặp nha sĩ trong vài năm là Lydia bị sâu răng.",
+                "The consequence of failing to submit your assignments on time is a lower grade.",
+                "Hậu quả của việc không nộp bài tập đúng hạn là sẽ có điểm số thấp hơn.",
                 "Warranties"
             ),
             DetailVocabulary(
                 "consume",
                 "tiêu thụ, tiêu dùng",
                 "/kən’sju:m/",
-                "People devour a good deal of sugar in drinks.",
-                "Mọi người tiêu thụ rất nhiều đường trong đồ uống.",
+                "I consume a lot of water every day to stay hydrated.",
+                "Tôi uống nhiều nước mỗi ngày để duy trì sự cung cấp nước cho cơ thể.",
                 "Warranties"
             ),
             DetailVocabulary(
@@ -246,8 +246,8 @@ class ContentDetailVocabulary {
                 "evaluate",
                 "đánh giá, định giá; ước lượng",
                 "/i’væljueit/",
-                "It’s important to assess his competition when making a business plan.",
-                "Điều quan trọng là phải đánh giá sự cạnh tranh của anh ấy khi lập kế hoạch kinh doanh.",
+                "The teacher asked the students to evaluate their classmates' presentations and provide feedback on their performance.",
+                "Thầy giáo đã yêu cầu học sinh đánh giá bài thuyết trình của bạn học và cung cấp phản hồi về hiệu suất của họ.",
                 "Business Planning"
             ),
 
@@ -279,8 +279,8 @@ class ContentDetailVocabulary {
                 "popularity",
                 "‹tính/sự› đại chúng, phổ biến,hoặc là nổi tiếng",
                 "/,pɔpju’læriti/",
-                "He convinced me that she was right.",
-                "Anh ấy đã thuyết phục tôi rằng cô ấy đúng.",
+                "The popularity of the new video game skyrocketed after it was featured in a popular online gaming magazine.",
+                "Sự phổ biến của trò chơi video mới tăng vọt sau khi nó được đề cập trong một tạp chí trò chơi trực tuyến phổ biến.",
                 "Electronics"
             ),
             DetailVocabulary(
@@ -320,8 +320,8 @@ class ContentDetailVocabulary {
                 "candidate",
                 "ứng cử viên tiềm năng, thí sinh, người dự tuyển",
                 "/’kændidit/",
-                "All of the applicants were ready for the competition.",
-                "Tất cả các ứng viên đã sẵn sàng cho cuộc thi.",
+                "The company interviewed several candidates for the open position, but only one of them had the qualifications and experience they were looking for.",
+                "Tập đoàn đã phỏng vấn nhiều ứng viên cho vị trí công việc trống, nhưng chỉ có một người trong số họ có đủ điều kiện và kinh nghiệm mà họ đang tìm kiếm.",
                 "Job Advertising and Recruiting"
             ),
             DetailVocabulary(
@@ -345,8 +345,8 @@ class ContentDetailVocabulary {
                 "apply",
                 "nộp, ứng tuyển",
                 "/ə’plai/",
-                "The college graduate applied for five jobs and received three offers.",
-                "Người tốt nghiệp đại học đã nộp đơn xin việc cho năm công việc và nhận được ba lời đề nghị.",
+                "I decided to apply for the job because it's a great opportunity for my career.",
+                "Tôi quyết định nộp đơn xin việc vì đó là một cơ hội tốt cho sự nghiệp của tôi.",
                 "Applying and Interviewing"
             ),
             DetailVocabulary(
@@ -358,19 +358,19 @@ class ContentDetailVocabulary {
                 "Applying and Interviewing"
             ),
             DetailVocabulary(
-                "be ready for",
-                "Sẵn sàng cho",
-                "",
-                "Thanks to her careful research, the applicant felt thathe was ready for the interview with the director of the program.",
-                "Nhờ sự nghiên cứu kỹ lưỡng của mình, người nộp đơn cảm thấy rằng mình đã sẵn sàng cho cuộc phỏng vấn với giám đốc chương trình.",
+                "job offer",
+                "Lời đề nghị công việc",
+                "[ʤɑb ˈɔfər]",
+                "After months of searching for a job, he finally received a fantastic job offer from a well-known company in the city.",
+                "Sau nhiều tháng tìm kiếm công việc, anh ấy cuối cùng đã nhận được một đề nghị việc làm tuyệt vời từ một công ty nổi tiếng tại thành phố.",
                 "Applying and Interviewing"
             ),
             DetailVocabulary(
                 "call in",
                 "yêu cầu, mời tới",
                 "",
-                "The HR manager called in all the qualified candidates for a 1st interview.",
-                "Giám đốc nhân sự gọi tất cả các ứng viên đủ tiêu chuẩn đến phỏng vấn lần đầu.",
+                "The manager decided to call in a team meeting to discuss the project's progress.",
+                "Dự án quyết định triệu tập cuộc họp nhóm để thảo luận về tiến trình của dự án.",
                 "Applying and Interviewing"
             ),
 
@@ -484,8 +484,8 @@ class ContentDetailVocabulary {
                 "look forward to",
                 "mong đợi, mong chờ, trông mong",
                 "",
-                "My father looks forward to seeing me after the war is over.",
-                "Cha tôi mong được gặp tôi sau khi chiến tranh kết thúc.",
+                "I look forward to seeing her after the war is over.",
+                "Tôi mong được gặp cô ấy sau khi chiến tranh kết thúc.",
                 "Promotions, Pensions and Awards"
             ),
             DetailVocabulary(
@@ -539,5 +539,4 @@ class ContentDetailVocabulary {
             ),
         )
     }
-
 }

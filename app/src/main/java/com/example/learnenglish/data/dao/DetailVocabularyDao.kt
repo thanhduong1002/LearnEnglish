@@ -22,4 +22,10 @@ interface DetailVocabularyDao {
 
     @Query("SELECT vietnamese FROM detailvocabulary")
     fun getAllVietnameseWords(): List<String>
+
+    @Query("SELECT example FROM detailvocabulary WHERE vietnamese = :vietnamese")
+    fun getExampleByVietnamese(vietnamese: String): String
+
+    @Query("SELECT english FROM detailvocabulary WHERE vietnamese = :vietnamese")
+    fun getEnglishByVietnamese(vietnamese: String): String
 }

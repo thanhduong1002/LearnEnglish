@@ -58,8 +58,10 @@ class DetailPracticeActivity : AppCompatActivity() {
             } else {
                 quantity++
                 isChecked = false
+
                 supportActionBar?.title =
                     Html.fromHtml("<font color=\"#442C2E\">$quantity/$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
+
                 if (quantity == questions + 1) {
                     buttonCheck.text = "Done"
                 } else {
@@ -71,6 +73,7 @@ class DetailPracticeActivity : AppCompatActivity() {
             if (quantity == questions + 1 && isChecked) {
                 intent = Intent(this, PracticeActivity::class.java)
                 intent.putExtra(PracticeActivity.Title, "Practice")
+
                 startActivity(intent)
             }
 
@@ -79,6 +82,18 @@ class DetailPracticeActivity : AppCompatActivity() {
 
         forgetTextView.setOnClickListener {
             quantity++
+
+            supportActionBar?.title =
+                Html.fromHtml("<font color=\"#442C2E\">$quantity/$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
+
+            if (quantity == 11) {
+                intent = Intent(this, PracticeActivity::class.java)
+                intent.putExtra(PracticeActivity.Title, "Practice")
+
+                startActivity(intent)
+            }
+
+            updateFragment(quantity)
         }
     }
 
