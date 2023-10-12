@@ -10,4 +10,6 @@
     <string name="topic">Topic:</string>
     <string name="add">Add</string>
     <string name="select_the_meaning_of_the_highlighted_word">Select the meaning of the highlighted word.</string>
+    <string name="fill_in_the_missing_letters_to_match_the_meaning_below">Fill in the missing letters to match the meaning below.</string>
+    <string name="text_here">Text Here</string>
 </resources>

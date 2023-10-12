@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="main">#FEDBD0</color>
     <color name="text">#442C2E</color>
+    <color name="highlight">#FF9B82</color>
+    <color name="selected">#EA7373</color>
 </resources>

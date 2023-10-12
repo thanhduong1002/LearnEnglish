@@ -1,11 +1,17 @@
 package com.example.learnenglish.ui.fragments
 
+import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
@@ -17,7 +23,8 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-
+import kotlinx.coroutines.withContext
+import java.util.Random
 
 class MultipleChoiceFragment : Fragment() {
     private lateinit var answerAdapter: AnswerAdapter
@@ -26,15 +33,17 @@ class MultipleChoiceFragment : Fragment() {
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
     private lateinit var listVietnameses: List<String>
     private lateinit var randomGroup: List<String>
+    private var randomIndex: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_multiple_choice, container, false)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    @RequiresApi(Build.VERSION_CODES.N)
     @DelicateCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -43,6 +52,7 @@ class MultipleChoiceFragment : Fragment() {
         detailVocabularyDao = database.detailVocabularyDao()
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
 
+        val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
         val recyclerViewAnswer: RecyclerView = view.findViewById(R.id.recyclerViewAnswer)
 
         answerAdapter = AnswerAdapter(emptyList())
@@ -51,9 +61,36 @@ class MultipleChoiceFragment : Fragment() {
 
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyRepository.getAllVietnameseWords()
-            randomGroup= listVietnameses.shuffled().take(4)
-            answerAdapter.setCartsList(randomGroup)
-            Log.d("list", randomGroup.size.toString())
+            randomGroup = listVietnameses.shuffled().take(4)
+
+            val random = Random()
+            randomIndex = random.nextInt(randomGroup.size)
+
+            val example = detailVocabularyRepository.getExampleByVietnamese(randomGroup[randomIndex])
+            val english = detailVocabularyRepository.getEnglishByVietnamese(randomGroup[randomIndex])
+
+            val spannable = highlightText(example, english, R.color.highlight)
+
+            withContext(Dispatchers.Main) {
+                answerAdapter.setAnswersList(randomGroup)
+                answerAdapter.notifyDataSetChanged()
+                textViewQuestion.text = spannable
+            }
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun highlightText(text: String, wordToHighlight: String, color: Int): SpannableString {
+        val spannable = SpannableString(text)
+        val regex = "(?i)\\Q$wordToHighlight\\E".toRegex()
+
+        val matches = regex.findAll(text)
+        for (match in matches) {
+            val startIndex = match.range.first
+            val endIndex = match.range.last + 1
+            spannable.setSpan(ForegroundColorSpan(color), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        }
+
+        return spannable
     }
 }
