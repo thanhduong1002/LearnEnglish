@@ -1,0 +1,32 @@
+package com.example.learnenglish.ui.activities
+
+import android.os.Build
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.text.Html
+import androidx.annotation.RequiresApi
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.learnenglish.R
+import com.example.learnenglish.ui.adapters.OptionAdapter
+
+class MainActivity : AppCompatActivity() {
+    private lateinit var optionAdapter: OptionAdapter
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        supportActionBar?.title = Html.fromHtml("<font color=\"#442C2E\">" + getString(R.string.app_name) + "</font>", Html.FROM_HTML_MODE_LEGACY)
+
+        val listOptions: List<String> = listOf("Vocabulary", "Practice")
+
+        val recyclerViewOptions: RecyclerView = findViewById(R.id.recyclerViewOptions)
+
+        optionAdapter = OptionAdapter(listOptions)
+        recyclerViewOptions.layoutManager = LinearLayoutManager(this)
+        recyclerViewOptions.adapter = optionAdapter
+
+    }
+}
