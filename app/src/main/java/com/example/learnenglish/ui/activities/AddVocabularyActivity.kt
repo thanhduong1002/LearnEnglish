@@ -23,6 +23,7 @@ import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.models.DetailVocabulary
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,6 +33,7 @@ class AddVocabularyActivity : AppCompatActivity() {
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
+    private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
 
     @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
@@ -117,6 +119,7 @@ class AddVocabularyActivity : AppCompatActivity() {
                 database = AppDatabase.getDatabase(this)
                 detailVocabularyDao = database.detailVocabularyDao()
                 detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
+                detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
                 try {
                     dialog.setMessage("Successfully added vocabulary to the '${newVocabulary.topic}' topic.")
@@ -125,7 +128,7 @@ class AddVocabularyActivity : AppCompatActivity() {
                     }
                     dialog.show()
                     CoroutineScope(Dispatchers.IO).launch {
-                        detailVocabularyRepository.insertNewVocabulary(newVocabulary)
+                        detailVocabularyViewModel.insertNewVocabulary(newVocabulary)
                     }
                 } catch (e: Exception) {
                     Log.e("DatabaseError", e.message, e)

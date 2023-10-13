@@ -13,6 +13,7 @@ import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.models.DetailVocabulary
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
 import com.example.learnenglish.ui.adapters.DetailVocabularyAdapter
+import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,6 +23,7 @@ class DetailVocabularyActivity : AppCompatActivity() {
     private lateinit var receivedData: String
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
+    private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var listDetailVocabulary: List<DetailVocabulary>
     private lateinit var detailVocabularyAdapter: DetailVocabularyAdapter
 
@@ -47,7 +49,9 @@ class DetailVocabularyActivity : AppCompatActivity() {
             detailVocabularyDao = database.detailVocabularyDao()
 
             detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
-            listDetailVocabulary = detailVocabularyRepository.getByTopic(receivedData)
+            detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
+
+            listDetailVocabulary = detailVocabularyViewModel.getByTopic(receivedData)
 
             val recyclerViewDetailVocabulary: RecyclerView =
                 findViewById(R.id.recyclerViewDetailVocabulary)

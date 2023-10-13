@@ -12,4 +12,8 @@
     <string name="select_the_meaning_of_the_highlighted_word">Select the meaning of the highlighted word.</string>
     <string name="fill_in_the_missing_letters_to_match_the_meaning_below">Fill in the missing letters to match the meaning below.</string>
     <string name="text_here">Text Here</string>
+    <string name="next">Next</string>
+    <string name="i_don_t_remember_this_word">I don\'t remember this word!</string>
+    <string name="view_detail_result">View detail result</string>
+    <string name="back_to_practice">Back to Practice</string>
 </resources>

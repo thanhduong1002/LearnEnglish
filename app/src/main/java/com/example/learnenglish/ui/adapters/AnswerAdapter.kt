@@ -9,8 +9,9 @@ import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
+import com.example.learnenglish.ui.activities.DetailPracticeActivity
 
-class AnswerAdapter(private var listAnswers: List<String>) :
+class AnswerAdapter(private var listAnswers: List<String>, private val activity: DetailPracticeActivity) :
     RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
 
     private var selectedPosition = -1
@@ -52,6 +53,8 @@ class AnswerAdapter(private var listAnswers: List<String>) :
                 selectedPosition = position
                 notifyItemChanged(position)
             }
+
+            activity.setAnswer(listAnswers[selectedPosition])
         }
     }
 }

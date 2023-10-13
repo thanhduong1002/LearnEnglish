@@ -1,16 +1,20 @@
 package com.example.learnenglish.ui.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.ui.activities.DetailPracticeActivity
+import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -22,7 +26,9 @@ class WordFillingFragment : Fragment() {
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
+    private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var listVietnameses: List<String>
+    private lateinit var englishWord: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,31 +44,31 @@ class WordFillingFragment : Fragment() {
         database = AppDatabase.getDatabase(requireContext())
         detailVocabularyDao = database.detailVocabularyDao()
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
+        detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
         val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
         val editTextAnswer: EditText = view.findViewById(R.id.editAnswer)
 
         GlobalScope.launch(Dispatchers.IO) {
-            listVietnameses = detailVocabularyRepository.getAllVietnameseWords()
+            listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
 
             val random = Random()
             val randomIndex = random.nextInt(listVietnameses.size)
             val vietnamese = listVietnameses[randomIndex]
-
-            val english = detailVocabularyRepository.getEnglishByVietnamese(vietnamese)
+            englishWord = detailVocabularyViewModel.getEnglishByVietnamese(vietnamese)
 
             withContext(Dispatchers.Main) {
                 textViewQuestion.text = vietnamese
 
                 editTextAnswer.setOnFocusChangeListener { _ , hasFocus ->
-                    if (hasFocus) editTextAnswer.hint = replaceWithUnderscores(english)
+                    if (hasFocus) editTextAnswer.hint = replaceWithUnderscores(englishWord)
                 }
             }
         }
     }
 
     private fun replaceWithUnderscores(word: String): String {
-        val charactersToReplace = setOf('a', 'e', 'i', 'o', 'u', 'c', 'n')
+        val charactersToReplace = setOf('a', 'e', 'i', 'o', 'u', 'c', 'n', "p")
         val result = StringBuilder()
 
         for (char in word) {
@@ -74,5 +80,10 @@ class WordFillingFragment : Fragment() {
         }
 
         return result.toString()
+    }
+
+    private fun updateResult(isTrue: Boolean) {
+        val activity = requireActivity() as DetailPracticeActivity
+        activity.setNewResult(isTrue)
     }
 }
