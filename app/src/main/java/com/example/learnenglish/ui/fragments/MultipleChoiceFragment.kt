@@ -18,7 +18,9 @@ import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.ui.activities.DetailPracticeActivity
 import com.example.learnenglish.ui.adapters.AnswerAdapter
+import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -31,6 +33,7 @@ class MultipleChoiceFragment : Fragment() {
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
+    private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var listVietnameses: List<String>
     private lateinit var randomGroup: List<String>
     private var randomIndex: Int = 0
@@ -51,23 +54,31 @@ class MultipleChoiceFragment : Fragment() {
         database = AppDatabase.getDatabase(requireContext())
         detailVocabularyDao = database.detailVocabularyDao()
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
+        detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
         val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
         val recyclerViewAnswer: RecyclerView = view.findViewById(R.id.recyclerViewAnswer)
+        val detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
-        answerAdapter = AnswerAdapter(emptyList())
+        answerAdapter = AnswerAdapter(emptyList(), detailPracticeActivity)
+
         recyclerViewAnswer.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewAnswer.adapter = answerAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
-            listVietnameses = detailVocabularyRepository.getAllVietnameseWords()
+            listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
+
             randomGroup = listVietnameses.shuffled().take(4)
 
             val random = Random()
+
             randomIndex = random.nextInt(randomGroup.size)
 
-            val example = detailVocabularyRepository.getExampleByVietnamese(randomGroup[randomIndex])
-            val english = detailVocabularyRepository.getEnglishByVietnamese(randomGroup[randomIndex])
+            val example = detailVocabularyViewModel.getExampleByVietnamese(randomGroup[randomIndex])
+            val english = detailVocabularyViewModel.getEnglishByVietnamese(randomGroup[randomIndex])
+
+            detailPracticeActivity.setQuestion(randomGroup[randomIndex])
+            detailPracticeActivity.setAnswer("")
 
             val spannable = highlightText(example, english, R.color.highlight)
 
@@ -83,11 +94,12 @@ class MultipleChoiceFragment : Fragment() {
     private fun highlightText(text: String, wordToHighlight: String, color: Int): SpannableString {
         val spannable = SpannableString(text)
         val regex = "(?i)\\Q$wordToHighlight\\E".toRegex()
-
         val matches = regex.findAll(text)
+
         for (match in matches) {
             val startIndex = match.range.first
             val endIndex = match.range.last + 1
+
             spannable.setSpan(ForegroundColorSpan(color), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 

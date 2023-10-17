@@ -11,17 +11,34 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.learnenglish.R
+import com.example.learnenglish.data.dao.DetailVocabularyDao
+import com.example.learnenglish.data.local.database.AppDatabase
+import com.example.learnenglish.data.repositories.DetailVocabularyRepository
 import com.example.learnenglish.ui.fragments.MultipleChoiceFragment
 import com.example.learnenglish.ui.fragments.WordFillingFragment
+import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 
 class DetailPracticeActivity : AppCompatActivity() {
     private var quantity: Int = 1
     private var receivedData: String? = ""
+    private var result: Int = 0
+    private var question: String = ""
+    private var answer: String = ""
+    private var isTrue: Boolean = false
+    private lateinit var database: AppDatabase
+    private lateinit var detailVocabularyDao: DetailVocabularyDao
+    private lateinit var detailVocabularyRepository: DetailVocabularyRepository
+    private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_practice)
+
+        database = AppDatabase.getDatabase(this)
+        detailVocabularyDao = database.detailVocabularyDao()
+        detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
+        detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
         val receivedIntent = intent
 
@@ -30,11 +47,37 @@ class DetailPracticeActivity : AppCompatActivity() {
 
             if (receivedData != null) {
                 supportActionBar?.title =
-                    Html.fromHtml("<font color=\"#442C2E\">$quantity/$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
+                    Html.fromHtml(
+                        "<font color=\"#442C2E\">$quantity/$receivedData</font>",
+                        Html.FROM_HTML_MODE_LEGACY
+                    )
             }
         }
 
         receivedData?.let { checkAndUpdate(it.toInt()) }
+    }
+
+    private fun compareAnswerAndQuestion(answer: String, question: String): Boolean {
+        if (answer == "" || question == "") return false
+
+        val resultCompare = answer.compareTo(question, ignoreCase = true)
+
+        return resultCompare == 0
+    }
+
+    private fun setNewResult(isTrue: Boolean) {
+        if (isTrue) {
+            result++
+        }
+    }
+
+    fun setQuestion(newQuestion: String) {
+        question = newQuestion
+    }
+
+    fun setAnswer(newAnswer: String) {
+        answer = newAnswer
+        isTrue = compareAnswerAndQuestion(answer, question)
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -42,37 +85,28 @@ class DetailPracticeActivity : AppCompatActivity() {
     private fun checkAndUpdate(questions: Int) {
         val buttonCheck: Button = findViewById(R.id.buttonCheck)
         val forgetTextView: TextView = findViewById(R.id.textViewForget)
-        var isChecked = false
 
         forgetTextView.paintFlags = forgetTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-
-        buttonCheck.text = "Check"
 
         updateFragment(quantity)
 
         buttonCheck.setOnClickListener {
-            if (!isChecked) {
-                buttonCheck.text = "Next"
-                forgetTextView.text = ""
-                isChecked = true
-            } else {
-                quantity++
-                isChecked = false
+            setNewResult(isTrue)
 
-                supportActionBar?.title =
-                    Html.fromHtml("<font color=\"#442C2E\">$quantity/$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
+            quantity++
 
-                if (quantity == questions + 1) {
-                    buttonCheck.text = "Done"
-                } else {
-                    buttonCheck.text = "Check"
-                    forgetTextView.text = "I don't remember this word!"
-                }
-            }
+            supportActionBar?.title =
+                Html.fromHtml(
+                    "<font color=\"#442C2E\">$quantity/$receivedData</font>",
+                    Html.FROM_HTML_MODE_LEGACY
+                )
 
-            if (quantity == questions + 1 && isChecked) {
-                intent = Intent(this, PracticeActivity::class.java)
-                intent.putExtra(PracticeActivity.Title, "Practice")
+            if (quantity == questions + 1) {
+                intent = Intent(this, ResultActivity::class.java)
+
+                intent.putExtra(ResultActivity.Title, "Result")
+                intent.putExtra(ResultActivity.Result, result.toString())
+                intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
 
                 startActivity(intent)
             }
@@ -84,11 +118,16 @@ class DetailPracticeActivity : AppCompatActivity() {
             quantity++
 
             supportActionBar?.title =
-                Html.fromHtml("<font color=\"#442C2E\">$quantity/$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
+                Html.fromHtml(
+                    "<font color=\"#442C2E\">$quantity/$receivedData</font>",
+                    Html.FROM_HTML_MODE_LEGACY
+                )
 
-            if (quantity == 11) {
-                intent = Intent(this, PracticeActivity::class.java)
-                intent.putExtra(PracticeActivity.Title, "Practice")
+            if (quantity + 1 == receivedData?.toInt()) {
+                intent = Intent(this, ResultActivity::class.java)
+
+                intent.putExtra(ResultActivity.Result, result.toString())
+                intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
 
                 startActivity(intent)
             }
@@ -99,7 +138,7 @@ class DetailPracticeActivity : AppCompatActivity() {
 
     private fun updateFragment(number: Int) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
-        val fragment = if (number % 2 == 0) {
+        val fragment = if (number % 2 != 0) {
             MultipleChoiceFragment()
         } else {
             WordFillingFragment()
