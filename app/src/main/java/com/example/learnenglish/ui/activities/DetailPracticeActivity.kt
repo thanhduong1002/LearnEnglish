@@ -7,7 +7,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -18,18 +17,14 @@ import com.example.learnenglish.data.repositories.DetailVocabularyRepository
 import com.example.learnenglish.ui.fragments.MultipleChoiceFragment
 import com.example.learnenglish.ui.fragments.WordFillingFragment
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class DetailPracticeActivity : AppCompatActivity() {
     private var quantity: Int = 1
     private var receivedData: String? = ""
     private var result: Int = 0
-    private var question: String? = ""
-    private var answer: String? = ""
-    private var answerOfQuestion: String? = ""
+    private var question: String = ""
+    private var answer: String = ""
+    private var isTrue: Boolean = false
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
@@ -62,6 +57,29 @@ class DetailPracticeActivity : AppCompatActivity() {
         receivedData?.let { checkAndUpdate(it.toInt()) }
     }
 
+    private fun compareAnswerAndQuestion(answer: String, question: String): Boolean {
+        if (answer == "" || question == "") return false
+
+        val resultCompare = answer.compareTo(question, ignoreCase = true)
+
+        return resultCompare == 0
+    }
+
+    private fun setNewResult(isTrue: Boolean) {
+        if (isTrue) {
+            result++
+        }
+    }
+
+    fun setQuestion(newQuestion: String) {
+        question = newQuestion
+    }
+
+    fun setAnswer(newAnswer: String) {
+        answer = newAnswer
+        isTrue = compareAnswerAndQuestion(answer, question)
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     private fun checkAndUpdate(questions: Int) {
@@ -73,7 +91,7 @@ class DetailPracticeActivity : AppCompatActivity() {
         updateFragment(quantity)
 
         buttonCheck.setOnClickListener {
-            setNewResult(answer == question)
+            setNewResult(isTrue)
 
             quantity++
 
@@ -85,6 +103,7 @@ class DetailPracticeActivity : AppCompatActivity() {
 
             if (quantity == questions + 1) {
                 intent = Intent(this, ResultActivity::class.java)
+
                 intent.putExtra(ResultActivity.Title, "Result")
                 intent.putExtra(ResultActivity.Result, result.toString())
                 intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
@@ -106,6 +125,7 @@ class DetailPracticeActivity : AppCompatActivity() {
 
             if (quantity + 1 == receivedData?.toInt()) {
                 intent = Intent(this, ResultActivity::class.java)
+
                 intent.putExtra(ResultActivity.Result, result.toString())
                 intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
 
@@ -126,23 +146,6 @@ class DetailPracticeActivity : AppCompatActivity() {
 
         fragmentTransaction.replace(R.id.mainContainer, fragment)
         fragmentTransaction.commit()
-    }
-
-    fun setNewResult(isTrue: Boolean) {
-        if (isTrue) {
-            result++
-            Log.d("Result", result.toString())
-        }
-    }
-
-    fun setQuestion(newQuestion: String) {
-        question = newQuestion
-        Log.d("Question", newQuestion)
-    }
-
-    fun setAnswer(newAnswer: String) {
-        answer = newAnswer
-        Log.d("Answer", newAnswer)
     }
 
     companion object {

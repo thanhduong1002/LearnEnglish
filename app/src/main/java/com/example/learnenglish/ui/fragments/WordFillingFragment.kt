@@ -1,14 +1,14 @@
 package com.example.learnenglish.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
@@ -48,6 +48,12 @@ class WordFillingFragment : Fragment() {
 
         val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
         val editTextAnswer: EditText = view.findViewById(R.id.editAnswer)
+        val textViewSaved: TextView = view.findViewById(R.id.textViewSaved)
+        val imageSaved: ImageView = view.findViewById(R.id.imageSaved)
+        val constraintLayoutFilling: ConstraintLayout = view.findViewById(R.id.constraintLayoutFilling)
+        val detailPracticeActivity = requireActivity() as DetailPracticeActivity
+
+        detailPracticeActivity.setAnswer("")
 
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
@@ -55,15 +61,31 @@ class WordFillingFragment : Fragment() {
             val random = Random()
             val randomIndex = random.nextInt(listVietnameses.size)
             val vietnamese = listVietnameses[randomIndex]
+
             englishWord = detailVocabularyViewModel.getEnglishByVietnamese(vietnamese)
+
+            detailPracticeActivity.setQuestion(englishWord)
 
             withContext(Dispatchers.Main) {
                 textViewQuestion.text = vietnamese
 
                 editTextAnswer.setOnFocusChangeListener { _ , hasFocus ->
-                    if (hasFocus) editTextAnswer.hint = replaceWithUnderscores(englishWord)
+                    if (hasFocus) {
+                        editTextAnswer.hint = replaceWithUnderscores(englishWord)
+                        textViewSaved.visibility = View.INVISIBLE
+                    }
                 }
             }
+        }
+
+        imageSaved.setOnClickListener {
+            textViewSaved.visibility = View.VISIBLE
+
+            detailPracticeActivity.setAnswer(editTextAnswer.text.toString())
+        }
+
+        constraintLayoutFilling.setOnClickListener {
+            editTextAnswer.clearFocus()
         }
     }
 
@@ -80,10 +102,5 @@ class WordFillingFragment : Fragment() {
         }
 
         return result.toString()
-    }
-
-    private fun updateResult(isTrue: Boolean) {
-        val activity = requireActivity() as DetailPracticeActivity
-        activity.setNewResult(isTrue)
     }
 }

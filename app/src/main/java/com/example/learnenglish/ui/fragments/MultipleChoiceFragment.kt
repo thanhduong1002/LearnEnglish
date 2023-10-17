@@ -58,23 +58,27 @@ class MultipleChoiceFragment : Fragment() {
 
         val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
         val recyclerViewAnswer: RecyclerView = view.findViewById(R.id.recyclerViewAnswer)
-
-        val detailPracticeActivity = DetailPracticeActivity()
+        val detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
         answerAdapter = AnswerAdapter(emptyList(), detailPracticeActivity)
+
         recyclerViewAnswer.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewAnswer.adapter = answerAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
+
             randomGroup = listVietnameses.shuffled().take(4)
 
             val random = Random()
+
             randomIndex = random.nextInt(randomGroup.size)
 
             val example = detailVocabularyViewModel.getExampleByVietnamese(randomGroup[randomIndex])
             val english = detailVocabularyViewModel.getEnglishByVietnamese(randomGroup[randomIndex])
+
             detailPracticeActivity.setQuestion(randomGroup[randomIndex])
+            detailPracticeActivity.setAnswer("")
 
             val spannable = highlightText(example, english, R.color.highlight)
 
@@ -90,11 +94,12 @@ class MultipleChoiceFragment : Fragment() {
     private fun highlightText(text: String, wordToHighlight: String, color: Int): SpannableString {
         val spannable = SpannableString(text)
         val regex = "(?i)\\Q$wordToHighlight\\E".toRegex()
-
         val matches = regex.findAll(text)
+
         for (match in matches) {
             val startIndex = match.range.first
             val endIndex = match.range.last + 1
+
             spannable.setSpan(ForegroundColorSpan(color), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         }
 

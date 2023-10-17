@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,6 +16,7 @@ class ResultActivity : AppCompatActivity() {
     private var receivedData: String? = ""
     private var result: String? = ""
     private var questions: String? = ""
+    private var listQuestions: String? = ""
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.N)
@@ -31,15 +31,13 @@ class ResultActivity : AppCompatActivity() {
         val buttonBack: Button = findViewById(R.id.buttonBack)
         val textViewNotification: TextView = findViewById(R.id.textViewNotification)
         val imageViewEmotion: ImageView = findViewById(R.id.imageViewEmotion)
-
         val receivedIntent = intent
 
         if (receivedIntent != null) {
             receivedData = receivedIntent.getStringExtra(Title)
             result = receivedIntent.getStringExtra(Result)
             questions = receivedIntent.getStringExtra(QuantityQuestion)
-
-            Log.d("Test", "$result/$questions")
+            listQuestions = receivedIntent.getStringExtra(ListQuestions)
 
             if (receivedData != null) {
                 supportActionBar?.title =
@@ -73,6 +71,7 @@ class ResultActivity : AppCompatActivity() {
 
         buttonBack.setOnClickListener {
             intent = Intent(this, PracticeActivity::class.java)
+
             intent.putExtra(PracticeActivity.Title, "Practice")
 
             startActivity(intent)
@@ -104,5 +103,6 @@ class ResultActivity : AppCompatActivity() {
         const val Result = "Result"
         const val Title = "Title"
         const val QuantityQuestion = "QuantityQuestion"
+        const val ListQuestions = "ListQuestions"
     }
 }
