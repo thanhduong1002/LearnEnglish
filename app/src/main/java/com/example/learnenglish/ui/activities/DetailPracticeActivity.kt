@@ -7,6 +7,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -25,6 +26,8 @@ class DetailPracticeActivity : AppCompatActivity() {
     private var question: String = ""
     private var answer: String = ""
     private var isTrue: Boolean = false
+    private var arrayQuestions: ArrayList<String> = ArrayList()
+    private var arrayAnswers: ArrayList<String> = ArrayList()
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
@@ -80,6 +83,14 @@ class DetailPracticeActivity : AppCompatActivity() {
         isTrue = compareAnswerAndQuestion(answer, question)
     }
 
+    fun addNewQuestion(newQuestion: String) {
+        arrayQuestions.add(newQuestion)
+    }
+
+    fun addNewAnswer(newAnswer: String) {
+        arrayAnswers.add(newAnswer)
+    }
+
     @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     private fun checkAndUpdate(questions: Int) {
@@ -91,6 +102,8 @@ class DetailPracticeActivity : AppCompatActivity() {
         updateFragment(quantity)
 
         buttonCheck.setOnClickListener {
+            if (answer == "") addNewAnswer("")
+
             setNewResult(isTrue)
 
             quantity++
@@ -107,6 +120,8 @@ class DetailPracticeActivity : AppCompatActivity() {
                 intent.putExtra(ResultActivity.Title, "Result")
                 intent.putExtra(ResultActivity.Result, result.toString())
                 intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
+                intent.putExtra(ResultActivity.ListQuestions, arrayQuestions.toTypedArray())
+                intent.putExtra(ResultActivity.ListAnswers, arrayAnswers.toTypedArray())
 
                 startActivity(intent)
             }
@@ -115,6 +130,8 @@ class DetailPracticeActivity : AppCompatActivity() {
         }
 
         forgetTextView.setOnClickListener {
+            addNewAnswer("")
+
             quantity++
 
             supportActionBar?.title =

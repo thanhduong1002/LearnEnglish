@@ -17,4 +17,7 @@
     <string name="view_detail_result">View detail result</string>
     <string name="back_to_practice">Back to Practice</string>
     <string name="saved">Saved</string>
+    <string name="result">Result:</string>
+    <string name="your_answer">Your answer:</string>
+    <string name="image_result">Image result</string>
 </resources>

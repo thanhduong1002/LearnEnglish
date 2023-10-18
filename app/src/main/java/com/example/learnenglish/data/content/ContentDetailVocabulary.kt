@@ -261,7 +261,7 @@ class ContentDetailVocabulary {
             ),
             DetailVocabulary(
                 "facilitate",
-                "Làm cho thuận tiện, dễ dàng ",
+                "Làm cho thuận tiện, dễ dàng",
                 "/fə’siliteit/",
                 "The computer program made the scheduling of appointments facilitate.",
                 "Chương trình máy tính giúp việc sắp xếp các cuộc hẹn trở nên dễ dàng hơn.",
@@ -441,7 +441,7 @@ class ContentDetailVocabulary {
             ),
             DetailVocabulary(
                 "delicately",
-                "‹một cách› tinh tế, lịch thiệp, tế nhị ",
+                "‹một cách› tinh tế, lịch thiệp, tế nhị",
                 "/ˈdelɪkət/",
                 "The boss delicately asked about the health of his client.",
                 "Ông chủ tế nhị hỏi thăm sức khỏe của khách hàng.",

@@ -55,6 +55,7 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
             }
 
             activity.setAnswer(listAnswers[selectedPosition])
+            activity.addNewAnswer(listAnswers[selectedPosition])
         }
     }
 }
