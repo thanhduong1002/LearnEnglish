@@ -65,6 +65,7 @@ class WordFillingFragment : Fragment() {
             englishWord = detailVocabularyViewModel.getEnglishByVietnamese(vietnamese)
 
             detailPracticeActivity.setQuestion(englishWord)
+            detailPracticeActivity.addNewQuestion(englishWord)
 
             withContext(Dispatchers.Main) {
                 textViewQuestion.text = vietnamese
@@ -82,6 +83,7 @@ class WordFillingFragment : Fragment() {
             textViewSaved.visibility = View.VISIBLE
 
             detailPracticeActivity.setAnswer(editTextAnswer.text.toString())
+            detailPracticeActivity.addNewAnswer(editTextAnswer.text.toString())
         }
 
         constraintLayoutFilling.setOnClickListener {

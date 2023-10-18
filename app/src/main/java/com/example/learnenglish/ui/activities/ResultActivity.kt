@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,6 +18,7 @@ class ResultActivity : AppCompatActivity() {
     private var result: String? = ""
     private var questions: String? = ""
     private var listQuestions: String? = ""
+    private var listAnswers: String? = ""
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.N)
@@ -37,7 +39,9 @@ class ResultActivity : AppCompatActivity() {
             receivedData = receivedIntent.getStringExtra(Title)
             result = receivedIntent.getStringExtra(Result)
             questions = receivedIntent.getStringExtra(QuantityQuestion)
-            listQuestions = receivedIntent.getStringExtra(ListQuestions)
+            listQuestions = receivedIntent.getStringArrayExtra(ListQuestions)?.joinToString(", ")
+            listAnswers = receivedIntent.getStringArrayExtra(ListAnswers)?.joinToString(". ")
+            Log.d("list", "$listAnswers")
 
             if (receivedData != null) {
                 supportActionBar?.title =
@@ -77,6 +81,15 @@ class ResultActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        buttonDetailResult.setOnClickListener {
+            intent = Intent(this, ViewDetailResultActivity::class.java)
+
+            intent.putExtra(ViewDetailResultActivity.Title, "Detail Result")
+            intent.putExtra(ViewDetailResultActivity.ListQuestions, listQuestions)
+            intent.putExtra(ViewDetailResultActivity.ListAnswers, listAnswers)
+
+            startActivity(intent)
+        }
     }
 
     private fun giveFeedback(score: Double): String {
@@ -104,5 +117,6 @@ class ResultActivity : AppCompatActivity() {
         const val Title = "Title"
         const val QuantityQuestion = "QuantityQuestion"
         const val ListQuestions = "ListQuestions"
+        const val ListAnswers = "ListAnswers"
     }
 }
