@@ -2,8 +2,6 @@ package com.example.learnenglish.data.repositories
 
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.models.DetailVocabulary
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 class DetailVocabularyRepository constructor(
     private val detailVocabularyDao: DetailVocabularyDao

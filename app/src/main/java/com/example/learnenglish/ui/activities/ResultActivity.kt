@@ -41,7 +41,6 @@ class ResultActivity : AppCompatActivity() {
             questions = receivedIntent.getStringExtra(QuantityQuestion)
             listQuestions = receivedIntent.getStringArrayExtra(ListQuestions)?.joinToString(", ")
             listAnswers = receivedIntent.getStringArrayExtra(ListAnswers)?.joinToString(". ")
-            Log.d("list", "$listAnswers")
 
             if (receivedData != null) {
                 supportActionBar?.title =

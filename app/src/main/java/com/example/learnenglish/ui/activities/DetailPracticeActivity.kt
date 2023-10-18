@@ -27,7 +27,7 @@ class DetailPracticeActivity : AppCompatActivity() {
     private var answer: String = ""
     private var isTrue: Boolean = false
     private var arrayQuestions: ArrayList<String> = ArrayList()
-    private var arrayAnswers: ArrayList<String> = ArrayList()
+    private var arrayAnswers: ArrayList<String> = arrayListOf("example")
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
@@ -87,8 +87,21 @@ class DetailPracticeActivity : AppCompatActivity() {
         arrayQuestions.add(newQuestion)
     }
 
-    fun addNewAnswer(newAnswer: String) {
+    private fun addNewAnswer(newAnswer: String) {
         arrayAnswers.add(newAnswer)
+    }
+
+    fun replaceOrAddAnswer(newAnswer: String, number: Int) {
+        if (number >= 0 && number < arrayAnswers.size) {
+            arrayAnswers[number] = newAnswer
+        } else {
+            addNewAnswer(newAnswer)
+        }
+    }
+
+    fun getQuantity(): Int {
+        Log.d("quantity", quantity.toString())
+        return quantity
     }
 
     @RequiresApi(Build.VERSION_CODES.N)
@@ -102,7 +115,7 @@ class DetailPracticeActivity : AppCompatActivity() {
         updateFragment(quantity)
 
         buttonCheck.setOnClickListener {
-            if (answer == "") addNewAnswer("")
+            if (answer == "") replaceOrAddAnswer("", quantity)
 
             setNewResult(isTrue)
 

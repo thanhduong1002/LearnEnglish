@@ -26,7 +26,8 @@ class PracticeActivity : AppCompatActivity() {
             if (receivedData != null) {
                 supportActionBar?.title =
                     Html.fromHtml("<font color=\"#442C2E\">$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
-            }
+            } else supportActionBar?.title =
+                Html.fromHtml("<font color=\"#442C2E\">Practice</font>", Html.FROM_HTML_MODE_LEGACY)
         }
 
         val listOptions: List<String> = listOf("10 Questions", "20 Questions", "30 Questions")

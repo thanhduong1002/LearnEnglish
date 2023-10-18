@@ -19,7 +19,7 @@
         <activity
             android:name=".ui.activities.ViewDetailResultActivity"
             android:exported="false"
-            android:parentActivityName=".ui.activities.ResultActivity" />
+            android:parentActivityName=".ui.activities.PracticeActivity" />
         <activity
             android:name=".ui.activities.ResultActivity"
             android:exported="false" />
@@ -53,5 +53,4 @@
             </intent-filter>
         </activity>
     </application>
-
 </manifest>

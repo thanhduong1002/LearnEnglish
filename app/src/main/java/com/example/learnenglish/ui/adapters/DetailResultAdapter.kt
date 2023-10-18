@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
@@ -19,10 +18,15 @@ import kotlinx.coroutines.launch
 
 class DetailResultAdapter(private var listDetailResults: MutableList<DetailResult>, private val detailVocabularyViewModel: DetailVocabularyViewModel) :
     RecyclerView.Adapter<DetailResultAdapter.DetailResultViewHolder>() {
+
+
+    private fun compareStringsIgnoreCase(str1: String, str2: String): Boolean {
+        return str1.equals(str2, ignoreCase = true)
+    }
+
     class DetailResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textResult: TextView = view.findViewById(R.id.textResult)
         val textAnswer: TextView = view.findViewById(R.id.textAnswer)
-        val cardDetail: CardView = view.findViewById(R.id.cardDetail)
         val imageResult: ImageView = view.findViewById(R.id.imageResult)
     }
 
@@ -49,10 +53,10 @@ class DetailResultAdapter(private var listDetailResults: MutableList<DetailResul
                 else holder.textResult.text = item.question
                 holder.textAnswer.text = item.answer
 
-                val iconResource = if (vietnameseQuestion == item.answer || item.question == item.answer) R.drawable.correct_icon
+                val iconResource = if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(item.question, item.answer)) R.drawable.correct_icon
                 else R.drawable.incorrect_icon
 
-                val colorId = if (vietnameseQuestion == item.answer || item.question == item.answer) {
+                val colorId = if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(item.question, item.answer)) {
                     R.color.green
                 } else {
                     R.color.red

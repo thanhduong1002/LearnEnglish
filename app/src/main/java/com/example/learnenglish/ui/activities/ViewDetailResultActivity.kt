@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
@@ -19,6 +20,7 @@ class ViewDetailResultActivity : AppCompatActivity() {
     private var receivedData: String? = ""
     private var listQuestions: String? = ""
     private var listAnswers: String? = ""
+    private var modifiedList: List<String> = listOf()
     private lateinit var detailResultAdapter: DetailResultAdapter
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
@@ -30,7 +32,11 @@ class ViewDetailResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_view_detail_result)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        val customIcon = ContextCompat.getDrawable(this, R.drawable.practice_icon)
+
+        customIcon?.setTint(ContextCompat.getColor(this, R.color.text))
+
+        supportActionBar?.setHomeAsUpIndicator(customIcon)
 
         database = AppDatabase.getDatabase(this)
         detailVocabularyDao = database.detailVocabularyDao()
@@ -57,17 +63,18 @@ class ViewDetailResultActivity : AppCompatActivity() {
 
         val listQuestion = listQuestions?.let { changeStringToList(it) }
         val listAnswer = listAnswers?.let { changeStringToOtherList(it) }
+        if (!listAnswer.isNullOrEmpty()) {
+            modifiedList = listAnswer.drop(1)
+        }
         val resultList = mutableListOf<DetailResult>()
 
         if (listQuestion != null) {
-            if (listAnswer != null) {
-                for (i in 0 until minOf(listQuestion.size, listAnswer.size)) {
-                    val question = listQuestion[i]
-                    val answer = listAnswer[i]
+            for (i in 0 until minOf(listQuestion.size, modifiedList.size)) {
+                val question = listQuestion[i]
+                val answer = modifiedList[i]
+                val result = DetailResult(answer, question)
 
-                    val result = DetailResult(answer, question)
-                    resultList.add(result)
-                }
+                resultList.add(result)
             }
         }
 
