@@ -1,14 +1,15 @@
 package com.example.learnenglish.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
@@ -29,6 +30,7 @@ class WordFillingFragment : Fragment() {
     private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var listVietnameses: List<String>
     private lateinit var englishWord: String
+    private var quantity: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +52,6 @@ class WordFillingFragment : Fragment() {
         val editTextAnswer: EditText = view.findViewById(R.id.editAnswer)
         val textViewSaved: TextView = view.findViewById(R.id.textViewSaved)
         val imageSaved: ImageView = view.findViewById(R.id.imageSaved)
-        val constraintLayoutFilling: ConstraintLayout = view.findViewById(R.id.constraintLayoutFilling)
         val detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
         detailPracticeActivity.setAnswer("")
@@ -83,10 +84,14 @@ class WordFillingFragment : Fragment() {
             textViewSaved.visibility = View.VISIBLE
 
             detailPracticeActivity.setAnswer(editTextAnswer.text.toString())
-            detailPracticeActivity.addNewAnswer(editTextAnswer.text.toString())
-        }
 
-        constraintLayoutFilling.setOnClickListener {
+            quantity = detailPracticeActivity.getQuantity()
+
+            detailPracticeActivity.replaceOrAddAnswer(editTextAnswer.text.toString(), quantity)
+
+            val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            inputMethodManager.hideSoftInputFromWindow(editTextAnswer.windowToken, 0)
+
             editTextAnswer.clearFocus()
         }
     }

@@ -17,6 +17,8 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
     private var selectedPosition = -1
     private val normalColorRes = R.color.main
     private val selectedColorRes = R.color.selected
+    private var quantity: Int = 0
+
     fun setAnswersList(listAnswers: List<String>) {
         this.listAnswers = listAnswers
     }
@@ -55,7 +57,10 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
             }
 
             activity.setAnswer(listAnswers[selectedPosition])
-            activity.addNewAnswer(listAnswers[selectedPosition])
+
+            quantity = activity.getQuantity()
+
+            activity.replaceOrAddAnswer(listAnswers[selectedPosition], quantity)
         }
     }
 }

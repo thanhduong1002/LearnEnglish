@@ -28,7 +28,7 @@ class VocabularyActivity : AppCompatActivity() {
 
             if (receivedData != null) {
                 supportActionBar?.title = Html.fromHtml("<font color=\"#442C2E\">$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
-            }
+            } else supportActionBar?.title = Html.fromHtml("<font color=\"#442C2E\">Vocabulary</font>", Html.FROM_HTML_MODE_LEGACY)
         }
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
