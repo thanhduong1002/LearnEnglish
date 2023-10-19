@@ -14,6 +14,8 @@ class DetailVocabularyRepository constructor(
 
     fun getAllVietnameseWords() = detailVocabularyDao.getAllVietnameseWords()
 
+    fun getAllEnglishesWords() = detailVocabularyDao.getAllEnglishesWords()
+
     fun getExampleByVietnamese(vietnamese: String): String =  detailVocabularyDao.getExampleByVietnamese(vietnamese)
 
     fun getEnglishByVietnamese(vietnamese: String): String = detailVocabularyDao.getEnglishByVietnamese(vietnamese)
