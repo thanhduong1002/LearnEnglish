@@ -29,7 +29,7 @@ class WordFillingFragment : Fragment() {
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
     private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
-    private lateinit var listVietnameses: List<String>
+    private lateinit var listEnglishes: List<String>
     private lateinit var englishWord: String
     private var quantity: Int = 0
 
@@ -58,27 +58,29 @@ class WordFillingFragment : Fragment() {
         detailPracticeActivity.setAnswer("")
 
         GlobalScope.launch(Dispatchers.IO) {
-            listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
+            listEnglishes = detailVocabularyViewModel.getAllEnglishesWords()
 
             val listEnglishToRemove: List<String> = detailPracticeActivity.getListQuestions().toList()
-            val newListVietnameses = listVietnameses.dropWhile  { word ->
-                listEnglishToRemove.contains(word)
+            val newListEnglishes = listEnglishes.filter { englishWord ->
+                !listEnglishToRemove.any { englishWordToRemove ->
+                    englishWord == englishWordToRemove
+                }
             }
             val random = Random()
-            val randomIndex = random.nextInt(newListVietnameses.size)
-            val vietnamese = newListVietnameses[randomIndex]
+            val randomIndex = random.nextInt(newListEnglishes.size)
+            val english = newListEnglishes[randomIndex]
 
-            englishWord = detailVocabularyViewModel.getEnglishByVietnamese(vietnamese)
+            val vietnamese = detailVocabularyViewModel.getVietnameseByEnglish(english)
 
-            detailPracticeActivity.setQuestion(englishWord)
-            detailPracticeActivity.addNewQuestion(englishWord)
+            detailPracticeActivity.setQuestion(english)
+            detailPracticeActivity.addNewQuestion(english)
 
             withContext(Dispatchers.Main) {
                 textViewQuestion.text = vietnamese
 
                 editTextAnswer.setOnFocusChangeListener { _ , hasFocus ->
                     if (hasFocus) {
-                        editTextAnswer.hint = replaceWithUnderscores(englishWord)
+                        editTextAnswer.hint = replaceWithUnderscores(english)
                         textViewSaved.visibility = View.INVISIBLE
                     }
                 }
@@ -89,8 +91,6 @@ class WordFillingFragment : Fragment() {
             textViewSaved.visibility = View.VISIBLE
 
             detailPracticeActivity.setAnswer(editTextAnswer.text.toString())
-
-            quantity = detailPracticeActivity.getQuantity()
 
             detailPracticeActivity.replaceOrAddAnswer(editTextAnswer.text.toString(), quantity)
 

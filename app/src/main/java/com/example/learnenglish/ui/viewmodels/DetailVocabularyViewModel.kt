@@ -16,6 +16,8 @@ class DetailVocabularyViewModel constructor(private val detailVocabularyReposito
 
     fun getAllVietnameseWords() = detailVocabularyRepository.getAllVietnameseWords()
 
+    fun getAllEnglishesWords() = detailVocabularyRepository.getAllEnglishesWords()
+
     suspend fun getExampleByVietnamese(vietnamese: String): String = withContext(Dispatchers.IO) {
         detailVocabularyRepository.getExampleByVietnamese(vietnamese)
     }

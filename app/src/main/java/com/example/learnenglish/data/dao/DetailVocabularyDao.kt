@@ -23,6 +23,9 @@ interface DetailVocabularyDao {
     @Query("SELECT vietnamese FROM detailvocabulary")
     fun getAllVietnameseWords(): List<String>
 
+    @Query("SELECT english FROM detailvocabulary")
+    fun getAllEnglishesWords(): List<String>
+
     @Query("SELECT example FROM detailvocabulary WHERE vietnamese = :vietnamese")
     fun getExampleByVietnamese(vietnamese: String): String
 
