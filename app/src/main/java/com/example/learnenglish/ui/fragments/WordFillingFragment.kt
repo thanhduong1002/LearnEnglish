@@ -2,6 +2,7 @@ package com.example.learnenglish.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -59,9 +60,13 @@ class WordFillingFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
 
+            val listEnglishToRemove: List<String> = detailPracticeActivity.getListQuestions().toList()
+            val newListVietnameses = listVietnameses.dropWhile  { word ->
+                listEnglishToRemove.contains(word)
+            }
             val random = Random()
-            val randomIndex = random.nextInt(listVietnameses.size)
-            val vietnamese = listVietnameses[randomIndex]
+            val randomIndex = random.nextInt(newListVietnameses.size)
+            val vietnamese = newListVietnameses[randomIndex]
 
             englishWord = detailVocabularyViewModel.getEnglishByVietnamese(vietnamese)
 
