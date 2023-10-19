@@ -68,7 +68,14 @@ class MultipleChoiceFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
 
-            randomGroup = listVietnameses.shuffled().take(4)
+            val listEnglishToRemove: List<String> = detailPracticeActivity.getListQuestions().toList()
+            val newListVietnameses = listVietnameses.filter { vietnameseWord ->
+                !listEnglishToRemove.any { englishWord ->
+                    detailVocabularyViewModel.getEnglishByVietnamese(vietnameseWord) == englishWord
+                }
+            }
+
+            randomGroup = newListVietnameses.shuffled().take(4)
 
             val random = Random()
 
