@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -62,34 +61,31 @@ class MultipleChoiceFragment : Fragment() {
         val detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
         answerAdapter = AnswerAdapter(emptyList(), detailPracticeActivity)
-
         recyclerViewAnswer.layoutManager = LinearLayoutManager(requireContext())
         recyclerViewAnswer.adapter = answerAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
 
-            val listEnglishToRemove: List<String> = detailPracticeActivity.getListQuestions().toList()
+            val listEnglishToRemove: List<String> =
+                detailPracticeActivity.getListQuestions().toList()
             val newListVietnameses = listVietnameses.filter { vietnameseWord ->
                 !listEnglishToRemove.any { englishWord ->
                     detailVocabularyViewModel.getEnglishByVietnamese(vietnameseWord) == englishWord
                 }
             }
-
-            randomGroup = newListVietnameses.shuffled().take(4)
-
             val random = Random()
 
+            randomGroup = newListVietnameses.shuffled().take(4)
             randomIndex = random.nextInt(randomGroup.size)
 
             val example = detailVocabularyViewModel.getExampleByVietnamese(randomGroup[randomIndex])
             val english = detailVocabularyViewModel.getEnglishByVietnamese(randomGroup[randomIndex])
+            val spannable = highlightText(example, english, R.color.highlight)
 
             detailPracticeActivity.setQuestion(randomGroup[randomIndex])
             detailPracticeActivity.addNewQuestion(english)
             detailPracticeActivity.setAnswer("")
-
-            val spannable = highlightText(example, english, R.color.highlight)
 
             withContext(Dispatchers.Main) {
                 answerAdapter.setAnswersList(randomGroup)
@@ -109,7 +105,12 @@ class MultipleChoiceFragment : Fragment() {
             val startIndex = match.range.first
             val endIndex = match.range.last + 1
 
-            spannable.setSpan(ForegroundColorSpan(color), startIndex, endIndex, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            spannable.setSpan(
+                ForegroundColorSpan(color),
+                startIndex,
+                endIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
         }
 
         return spannable

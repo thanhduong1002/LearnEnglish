@@ -6,7 +6,6 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,34 +25,26 @@ class ResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_result)
 
-        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
-
         val textViewResult: TextView = findViewById(R.id.textViewResult)
         val buttonDetailResult: Button = findViewById(R.id.buttonDetailResult)
         val buttonBack: Button = findViewById(R.id.buttonBack)
         val textViewNotification: TextView = findViewById(R.id.textViewNotification)
         val imageViewEmotion: ImageView = findViewById(R.id.imageViewEmotion)
-        val receivedIntent = intent
 
-        if (receivedIntent != null) {
-            receivedData = receivedIntent.getStringExtra(Title)
-            result = receivedIntent.getStringExtra(Result)
-            questions = receivedIntent.getStringExtra(QuantityQuestion)
-            listQuestions = receivedIntent.getStringArrayExtra(ListQuestions)?.joinToString(", ")
-            listAnswers = receivedIntent.getStringArrayExtra(ListAnswers)?.joinToString(". ")
+        receivedData = intent.getStringExtra(Title) ?: getString(R.string.title_result)
+        result = intent.getStringExtra(Result)
+        questions = intent.getStringExtra(QuantityQuestion)
+        listQuestions = intent.getStringArrayExtra(ListQuestions)?.joinToString(", ")
+        listAnswers = intent.getStringArrayExtra(ListAnswers)?.joinToString(". ")
 
-            if (receivedData != null) {
-                supportActionBar?.title =
-                    Html.fromHtml(
-                        "<font color=\"#442C2E\">$receivedData</font>",
-                        Html.FROM_HTML_MODE_LEGACY
-                    )
-            }
+        supportActionBar?.title =
+            Html.fromHtml(
+                "<font color=\"#442C2E\">$receivedData</font>",
+                Html.FROM_HTML_MODE_LEGACY
+            )
+        supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
-            if (result != null && questions != null) {
-                textViewResult.text = "$result/$questions"
-            }
-        }
+        textViewResult.text = "${result ?: "0"}/${questions ?: "0"}"
 
         if (questions?.toInt() == 10) {
             textViewNotification.text = result?.toDouble()?.let { giveFeedback(it) }
@@ -75,7 +66,7 @@ class ResultActivity : AppCompatActivity() {
         buttonBack.setOnClickListener {
             intent = Intent(this, PracticeActivity::class.java)
 
-            intent.putExtra(PracticeActivity.Title, "Practice")
+            intent.putExtra(PracticeActivity.Title, getString(R.string.title_practice))
 
             startActivity(intent)
         }
@@ -83,7 +74,7 @@ class ResultActivity : AppCompatActivity() {
         buttonDetailResult.setOnClickListener {
             intent = Intent(this, ViewDetailResultActivity::class.java)
 
-            intent.putExtra(ViewDetailResultActivity.Title, "Detail Result")
+            intent.putExtra(ViewDetailResultActivity.Title, getString(R.string.title_detail_result))
             intent.putExtra(ViewDetailResultActivity.ListQuestions, listQuestions)
             intent.putExtra(ViewDetailResultActivity.ListAnswers, listAnswers)
 

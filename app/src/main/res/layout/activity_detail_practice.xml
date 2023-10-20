@@ -17,16 +17,17 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.5"
+        tools:ignore="FragmentTagUsage" />
 
     <Button
         android:id="@+id/buttonCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text"
-        android:textStyle="bold"
         android:text="@string/next"
         android:textAllCaps="false"
+        android:textColor="@color/text"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textViewForget"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

@@ -20,4 +20,18 @@
     <string name="result">Result:</string>
     <string name="your_answer">Your answer:</string>
     <string name="image_result">Image result</string>
+    <string name="you_don_t_have_any_vocabulary_on_this_topic">You don\'t have any vocabulary on this topic.</string>
+    <string name="title_practice">Practice</string>
+    <string name="title_detail_result">Detail Result</string>
+    <string name="title_add_new_word">Add a new vocabulary</string>
+    <string name="title_result">Result</string>
+    <string name="enter_the_english_text_here">Enter the English text here</string>
+    <string name="enter_the_english_example_here">Enter the English example here</string>
+    <string name="enter_the_meaning_here">Enter the meaning here</string>
+    <string name="enter_the_pronunciation_here">Enter the pronunciation here</string>
+    <string name="enter_the_translate_example_here">Enter the Vietnamese example here</string>
+    <string name="image_emotion">Image Emotion</string>
+    <string name="button_add_new_word">Button add new word</string>
+    <string name="save_button_image">Save button image</string>
+    <string name="topic_image">Topic image</string>
 </resources>

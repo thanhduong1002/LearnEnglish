@@ -21,16 +21,13 @@ class VocabularyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_vocabulary)
 
-        val receivedIntent = intent
+        val receivedData = intent.getStringExtra(Title)
+        val title = receivedData ?: "Vocabulary"
 
-        if (receivedIntent != null) {
-            val receivedData = receivedIntent.getStringExtra(Title)
-
-            if (receivedData != null) {
-                supportActionBar?.title = Html.fromHtml("<font color=\"#442C2E\">$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
-            } else supportActionBar?.title = Html.fromHtml("<font color=\"#442C2E\">Vocabulary</font>", Html.FROM_HTML_MODE_LEGACY)
-        }
-
+        supportActionBar?.title = Html.fromHtml(
+            "<font color=\"#442C2E\">$title</font>",
+            Html.FROM_HTML_MODE_LEGACY
+        )
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val listVocabularies: List<Vocabulary> = listOf(
@@ -47,6 +44,7 @@ class VocabularyActivity : AppCompatActivity() {
             Vocabulary("Salaries and Benefits", R.drawable.salarybenefit),
             Vocabulary("Promotions, Pensions and Awards", R.drawable.awards),
             Vocabulary("Conferences", R.drawable.conference),
+            Vocabulary("Other", R.drawable.other),
         )
 
         val recyclerViewVocabulary: RecyclerView = findViewById(R.id.recyclerViewVocabularies)

@@ -16,7 +16,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class DetailResultAdapter(private var listDetailResults: MutableList<DetailResult>, private val detailVocabularyViewModel: DetailVocabularyViewModel) :
+class DetailResultAdapter(
+    private var listDetailResults: MutableList<DetailResult>,
+    private val detailVocabularyViewModel: DetailVocabularyViewModel
+) :
     RecyclerView.Adapter<DetailResultAdapter.DetailResultViewHolder>() {
 
 
@@ -33,6 +36,7 @@ class DetailResultAdapter(private var listDetailResults: MutableList<DetailResul
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailResultViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.detail_result_item, parent, false)
+
         return DetailResultViewHolder(adapterLayout)
     }
 
@@ -51,12 +55,22 @@ class DetailResultAdapter(private var listDetailResults: MutableList<DetailResul
             holder.itemView.post {
                 if (position % 2 == 0) holder.textResult.text = vietnameseQuestion
                 else holder.textResult.text = item.question
+
                 holder.textAnswer.text = item.answer
 
-                val iconResource = if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(item.question, item.answer)) R.drawable.correct_icon
-                else R.drawable.incorrect_icon
+                val iconResource =
+                    if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(
+                            item.question,
+                            item.answer
+                        )
+                    ) R.drawable.correct_icon
+                    else R.drawable.incorrect_icon
 
-                val colorId = if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(item.question, item.answer)) {
+                val colorId = if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(
+                        item.question,
+                        item.answer
+                    )
+                ) {
                     R.color.green
                 } else {
                     R.color.red

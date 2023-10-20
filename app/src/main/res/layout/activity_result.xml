@@ -10,6 +10,7 @@
         android:id="@+id/imageViewEmotion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/image_emotion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,50 +22,50 @@
         android:id="@+id/textViewResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewEmotion"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/space_15dp"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginTop="@dimen/space_15dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageViewEmotion" />
 
     <TextView
         android:id="@+id/textViewNotification"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/textViewResult"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/space_15dp"
         android:textAlignment="center"
-        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="17sp"
-        android:layout_marginTop="@dimen/space_15dp"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewResult" />
 
     <Button
         android:id="@+id/buttonDetailResult"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/view_detail_result"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:textColor="@color/text"
-        android:text="@string/view_detail_result"
         app:layout_constraintTop_toBottomOf="@+id/textViewNotification"
-        android:textAllCaps="false"
         app:layout_constraintVertical_bias="0.77" />
 
     <Button
         android:id="@+id/buttonBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_10dp"
+        android:text="@string/back_to_practice"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:text="@string/back_to_practice"
-        android:textColor="@color/text"
-        android:layout_marginTop="@dimen/space_10dp"
-        android:textAllCaps="false"
         app:layout_constraintTop_toBottomOf="@+id/buttonDetailResult" />
 
 

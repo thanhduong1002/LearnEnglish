@@ -18,20 +18,15 @@ class PracticeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_practice)
 
-        val receivedIntent = intent
+        val receivedData = intent.getStringExtra(VocabularyActivity.Title)
+        val title = receivedData ?: "Practice"
 
-        if (receivedIntent != null) {
-            val receivedData = receivedIntent.getStringExtra(VocabularyActivity.Title)
-
-            if (receivedData != null) {
-                supportActionBar?.title =
-                    Html.fromHtml("<font color=\"#442C2E\">$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
-            } else supportActionBar?.title =
-                Html.fromHtml("<font color=\"#442C2E\">Practice</font>", Html.FROM_HTML_MODE_LEGACY)
-        }
+        supportActionBar?.title = Html.fromHtml(
+            "<font color=\"#442C2E\">$title</font>",
+            Html.FROM_HTML_MODE_LEGACY
+        )
 
         val listOptions: List<String> = listOf("10 Questions", "20 Questions", "30 Questions")
-
         val recyclerViewPractices: RecyclerView = findViewById(R.id.recyclerViewPractice)
 
         optionAdapter = OptionAdapter(listOptions)

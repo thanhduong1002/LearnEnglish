@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.core.content.res.TypedArrayUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
@@ -22,6 +23,7 @@ class OptionAdapter(private var listOptions: List<String>) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.option_item, parent, false)
+
         return OptionViewHolder(adapterLayout)
     }
 
@@ -33,41 +35,54 @@ class OptionAdapter(private var listOptions: List<String>) :
         val item = listOptions[position]
 
         holder.textViewOption.text = item
-
         holder.cardItem.setOnClickListener {
             val intent: Intent
 
             when (item) {
                 "Vocabulary" -> {
                     intent = Intent(holder.itemView.context, VocabularyActivity::class.java)
-                    intent.putExtra(VocabularyActivity.Title, "Vocabulary")
+
+                    intent.putExtra(VocabularyActivity.Title, item)
+
                     holder.itemView.context.startActivity(intent)
                 }
 
                 "10 Questions" -> {
                     intent = Intent(holder.itemView.context, DetailPracticeActivity::class.java)
-                    intent.putExtra(DetailPracticeActivity.Quantity, "10")
+
+                    intent.putExtra(DetailPracticeActivity.Quantity, getNumberQuestions(item))
+
                     holder.itemView.context.startActivity(intent)
                 }
 
                 "20 Questions" -> {
                     intent = Intent(holder.itemView.context, DetailPracticeActivity::class.java)
-                    intent.putExtra(DetailPracticeActivity.Quantity, "20")
+
+                    intent.putExtra(DetailPracticeActivity.Quantity, getNumberQuestions(item))
+
                     holder.itemView.context.startActivity(intent)
                 }
 
                 "30 Questions" -> {
                     intent = Intent(holder.itemView.context, DetailPracticeActivity::class.java)
-                    intent.putExtra(DetailPracticeActivity.Quantity, "30")
+
+                    intent.putExtra(DetailPracticeActivity.Quantity, getNumberQuestions(item))
+
                     holder.itemView.context.startActivity(intent)
                 }
 
                 else -> {
                     intent = Intent(holder.itemView.context, PracticeActivity::class.java)
-                    intent.putExtra(PracticeActivity.Title, "Practice")
+
+                    intent.putExtra(PracticeActivity.Title, item)
+
                     holder.itemView.context.startActivity(intent)
                 }
             }
         }
+    }
+
+    private fun getNumberQuestions(packageQuestion: String): String {
+        return packageQuestion.substring(0, 2)
     }
 }

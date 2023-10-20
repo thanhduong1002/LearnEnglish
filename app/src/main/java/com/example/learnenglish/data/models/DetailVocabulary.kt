@@ -24,6 +24,5 @@ data class DetailVocabulary(
 
     @ColumnInfo(name = "topic")
     var topic: String,
-
 )
 

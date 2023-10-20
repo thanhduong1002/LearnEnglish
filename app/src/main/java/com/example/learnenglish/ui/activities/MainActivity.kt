@@ -18,10 +18,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        supportActionBar?.title = Html.fromHtml("<font color=\"#442C2E\">" + getString(R.string.app_name) + "</font>", Html.FROM_HTML_MODE_LEGACY)
+        supportActionBar?.title = Html.fromHtml(
+            "<font color=\"#442C2E\">" + getString(R.string.app_name) + "</font>",
+            Html.FROM_HTML_MODE_LEGACY
+        )
 
         val listOptions: List<String> = listOf("Vocabulary", "Practice")
-
         val recyclerViewOptions: RecyclerView = findViewById(R.id.recyclerViewOptions)
 
         optionAdapter = OptionAdapter(listOptions)

@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.view.View
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,16 +34,14 @@ class DetailVocabularyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_vocabulary)
 
+        receivedData = intent.getStringExtra(Title).toString()
+
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-
-        val receivedIntent = intent
-
-        if (receivedIntent != null) {
-            receivedData = receivedIntent.getStringExtra(Title).toString()
-
-            supportActionBar?.title =
-                Html.fromHtml("<font color=\"#442C2E\">$receivedData</font>", Html.FROM_HTML_MODE_LEGACY)
-        }
+        supportActionBar?.title =
+            Html.fromHtml(
+                "<font color=\"#442C2E\">$receivedData</font>",
+                Html.FROM_HTML_MODE_LEGACY
+            )
 
         database = AppDatabase.getDatabase(this)
 
@@ -53,11 +53,15 @@ class DetailVocabularyActivity : AppCompatActivity() {
 
             listDetailVocabulary = detailVocabularyViewModel.getByTopic(receivedData)
 
+            val textViewEmpty: TextView = findViewById(R.id.textViewEmpty)
             val recyclerViewDetailVocabulary: RecyclerView =
                 findViewById(R.id.recyclerViewDetailVocabulary)
 
+            if (listDetailVocabulary.isEmpty()) textViewEmpty.visibility = View.VISIBLE
+            else textViewEmpty.visibility = View.INVISIBLE
+
             detailVocabularyAdapter =
-                DetailVocabularyAdapter( listDetailVocabulary)
+                DetailVocabularyAdapter(listDetailVocabulary)
             recyclerViewDetailVocabulary.layoutManager =
                 LinearLayoutManager(this@DetailVocabularyActivity)
 
