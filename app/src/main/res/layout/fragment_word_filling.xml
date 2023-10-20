@@ -34,7 +34,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/space_2dp"
         android:layout_marginTop="@dimen/space_10dp"
         android:background="#000000"
         app:layout_constraintTop_toBottomOf="@+id/textViewQuestion" />
@@ -52,8 +52,11 @@
             android:id="@+id/editAnswer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:autofillHints="text|sentence|paragraph"
             android:background="@drawable/border_edittext"
             android:hint="@string/text_here"
+            android:inputType="text"
+            android:padding="@dimen/space_15dp"
             android:textColor="@color/text"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -64,7 +67,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="@dimen/space_35dp"
-            android:src="@drawable/save_icon" />
+            android:contentDescription="@string/save_button_image"
+            android:src="@drawable/save_icon"
+            tools:ignore="RedundantDescriptionCheck" />
 
         <TextView
             android:id="@+id/textViewSaved"

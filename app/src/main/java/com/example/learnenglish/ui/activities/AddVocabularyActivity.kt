@@ -42,7 +42,10 @@ class AddVocabularyActivity : AppCompatActivity() {
         setContentView(R.layout.activity_add_vocabulary)
 
         supportActionBar?.title =
-            Html.fromHtml("<font color=\"#442C2E\">Add a new vocabulary</font>", HtmlCompat.FROM_HTML_MODE_LEGACY)
+            Html.fromHtml(
+                "<font color=\"#442C2E\">${getString(R.string.title_add_new_word)}</font>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val topicData = arrayOf(
@@ -65,10 +68,9 @@ class AddVocabularyActivity : AppCompatActivity() {
         newVocabulary = DetailVocabulary("", "", "", "", "", "")
 
         val spinnerEnglish: Spinner = findViewById(R.id.spinnerEnglish)
-
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, topicData)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerEnglish.adapter = adapter
 
         spinnerEnglish.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -126,7 +128,9 @@ class AddVocabularyActivity : AppCompatActivity() {
                     dialog.setNeutralButton("Dismiss") { dialog, _ ->
                         dialog.dismiss()
                     }
+
                     dialog.show()
+
                     CoroutineScope(Dispatchers.IO).launch {
                         detailVocabularyViewModel.insertNewVocabulary(newVocabulary)
                     }
@@ -138,6 +142,7 @@ class AddVocabularyActivity : AppCompatActivity() {
                 dialog.setNeutralButton("Dismiss") { dialog, _ ->
                     dialog.dismiss()
                 }
+
                 dialog.show()
             }
         }

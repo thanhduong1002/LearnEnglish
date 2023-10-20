@@ -22,6 +22,7 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
     fun setAnswersList(listAnswers: List<String>) {
         this.listAnswers = listAnswers
     }
+
     class AnswerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textViewOption: TextView = view.findViewById(R.id.textViewOption)
         val cardItem: CardView = view.findViewById(R.id.optionItem)
@@ -30,6 +31,7 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.option_item, parent, false)
+
         return AnswerViewHolder(adapterLayout)
     }
 
@@ -42,17 +44,19 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
         val item = listAnswers[position]
 
         holder.textViewOption.text = item
-
-        if (position == selectedPosition) {
-            holder.cardItem.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, selectedColorRes))
-        } else {
-            holder.cardItem.setCardBackgroundColor(ContextCompat.getColor(holder.itemView.context, normalColorRes))
-        }
-
+        holder.cardItem.setCardBackgroundColor(
+            if (position == selectedPosition) {
+                ContextCompat.getColor(holder.itemView.context, selectedColorRes)
+            } else {
+                ContextCompat.getColor(holder.itemView.context, normalColorRes)
+            }
+        )
         holder.cardItem.setOnClickListener {
             if (selectedPosition != position) {
                 notifyItemChanged(selectedPosition)
+
                 selectedPosition = position
+
                 notifyItemChanged(position)
             }
 

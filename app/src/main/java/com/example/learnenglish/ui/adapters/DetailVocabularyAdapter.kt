@@ -11,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.data.models.DetailVocabulary
 
-class DetailVocabularyAdapter(private var listDetailVocabularies: List<DetailVocabulary>) : RecyclerView.Adapter<DetailVocabularyAdapter.DetailVocabularyViewHolder>() {
+class DetailVocabularyAdapter(private var listDetailVocabularies: List<DetailVocabulary>) :
+    RecyclerView.Adapter<DetailVocabularyAdapter.DetailVocabularyViewHolder>() {
     class DetailVocabularyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val flipCard: CardView = view.findViewById(R.id.flipCard)
         val frontLayout: LinearLayout = view.findViewById(R.id.frontLayout)
@@ -25,6 +26,7 @@ class DetailVocabularyAdapter(private var listDetailVocabularies: List<DetailVoc
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailVocabularyViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.detail_vocabulary_item, parent, false)
+
         return DetailVocabularyViewHolder(adapterLayout)
     }
 
@@ -36,11 +38,10 @@ class DetailVocabularyAdapter(private var listDetailVocabularies: List<DetailVoc
     override fun onBindViewHolder(holder: DetailVocabularyViewHolder, position: Int) {
         val item = listDetailVocabularies[position]
 
-        holder.textEnglish.text = "${ item.english } - ${item.spelling}"
+        holder.textEnglish.text = "${item.english} - ${item.spelling}"
         holder.textVietnamese.text = item.vietnamese
         holder.textExample.text = item.example
         holder.textExampleVietnamese.text = item.exampleVN
-
         holder.flipCard.setOnClickListener {
             if (holder.backLayout.visibility == View.GONE) {
                 holder.backLayout.visibility = View.VISIBLE

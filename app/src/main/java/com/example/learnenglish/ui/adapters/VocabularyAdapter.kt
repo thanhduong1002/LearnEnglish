@@ -13,7 +13,8 @@ import com.example.learnenglish.R
 import com.example.learnenglish.data.models.Vocabulary
 import com.example.learnenglish.ui.activities.DetailVocabularyActivity
 
-class VocabularyAdapter(private var listVocabularies: List<Vocabulary>) : RecyclerView.Adapter<VocabularyAdapter.VocabularyViewHolder>() {
+class VocabularyAdapter(private var listVocabularies: List<Vocabulary>) :
+    RecyclerView.Adapter<VocabularyAdapter.VocabularyViewHolder>() {
     class VocabularyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageItem: ImageView = view.findViewById(R.id.imageItem)
         val textItem: TextView = view.findViewById(R.id.textItem)
@@ -23,6 +24,7 @@ class VocabularyAdapter(private var listVocabularies: List<Vocabulary>) : Recycl
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VocabularyViewHolder {
         val adapterLayout = LayoutInflater.from(parent.context)
             .inflate(R.layout.vocabulary_item, parent, false)
+
         return VocabularyViewHolder(adapterLayout)
     }
 
@@ -35,11 +37,12 @@ class VocabularyAdapter(private var listVocabularies: List<Vocabulary>) : Recycl
         val item = listVocabularies[position]
 
         item.image?.let { holder.imageItem.setImageResource(it) }
-        holder.textItem.text = "${position + 1}. ${ item.title }"
+        holder.textItem.text = "${position + 1}. ${item.title}"
         holder.vocabularyItem.setOnClickListener {
             val intent = Intent(holder.itemView.context, DetailVocabularyActivity::class.java)
 
             intent.putExtra(DetailVocabularyActivity.Title, item.title)
+
             holder.itemView.context.startActivity(intent)
         }
     }

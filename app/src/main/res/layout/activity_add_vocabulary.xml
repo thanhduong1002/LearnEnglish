@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:padding="@dimen/space_15dp"
     tools:context=".ui.activities.AddVocabularyActivity">
 
     <LinearLayout
@@ -26,7 +26,12 @@
         <EditText
             android:id="@+id/editTextEnglish"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="english"
+            android:hint="@string/enter_the_english_text_here"
+            android:inputType="text"
+            android:padding="@dimen/space_15dp"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -49,7 +54,12 @@
         <EditText
             android:id="@+id/editTextMeaning"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="meaning"
+            android:hint="@string/enter_the_meaning_here"
+            android:inputType="text"
+            android:padding="@dimen/space_15dp"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -72,7 +82,12 @@
         <EditText
             android:id="@+id/editTextPronunciation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="pronunciation"
+            android:hint="@string/enter_the_pronunciation_here"
+            android:inputType="text"
+            android:padding="@dimen/space_15dp"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -95,7 +110,12 @@
         <EditText
             android:id="@+id/editTextExample"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="example"
+            android:hint="@string/enter_the_english_example_here"
+            android:inputType="text"
+            android:padding="@dimen/space_15dp"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -118,7 +138,12 @@
         <EditText
             android:id="@+id/editTextExampleTranslation"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:autofillHints="exampleTranslation"
+            android:hint="@string/enter_the_translate_example_here"
+            android:inputType="text"
+            android:padding="@dimen/space_15dp"
+            tools:ignore="LabelFor" />
 
     </LinearLayout>
 
@@ -141,7 +166,8 @@
         <Spinner
             android:id="@+id/spinnerEnglish"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="@dimen/space_15dp" />
 
     </LinearLayout>
 

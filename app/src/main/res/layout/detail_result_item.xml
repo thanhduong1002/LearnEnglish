@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardDetail"
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="@dimen/space_120dp"
         android:layout_margin="@dimen/space_10dp"
         app:cardCornerRadius="@dimen/space_10dp"
         app:cardElevation="@dimen/space_10dp"
@@ -26,8 +26,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="@dimen/space_10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/space_10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -41,9 +41,9 @@
                     android:id="@+id/textResult"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:ellipsize="end"
                     android:maxLines="4"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -52,8 +52,8 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:padding="@dimen/space_10dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="@dimen/space_10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -67,25 +67,24 @@
                     android:id="@+id/textAnswer"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
                     android:ellipsize="end"
                     android:maxLines="3"
+                    android:textColor="@color/black"
                     android:textSize="16sp" />
 
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageResult"
-                android:padding="@dimen/space_10dp"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:contentDescription="@string/image_result"
                 android:layout_weight="1"
+                android:contentDescription="@string/image_result"
+                android:padding="@dimen/space_10dp"
                 android:src="@drawable/correct_icon" />
 
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

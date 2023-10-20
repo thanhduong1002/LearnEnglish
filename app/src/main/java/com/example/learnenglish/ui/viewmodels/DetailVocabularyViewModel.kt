@@ -7,9 +7,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DetailVocabularyViewModel constructor(private val detailVocabularyRepository: DetailVocabularyRepository): ViewModel() {
-
-    fun getAllDetailVocabularies(): List<DetailVocabulary> = detailVocabularyRepository.getAll()
-
     fun getByTopic(topic: String): List<DetailVocabulary> = detailVocabularyRepository.getByTopic(topic)
 
     fun insertNewVocabulary(newVocabulary: DetailVocabulary) = detailVocabularyRepository.insertNewVocabulary(newVocabulary)

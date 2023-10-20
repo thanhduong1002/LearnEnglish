@@ -2,7 +2,6 @@ package com.example.learnenglish.ui.fragments
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,7 +29,6 @@ class WordFillingFragment : Fragment() {
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
     private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var listEnglishes: List<String>
-    private lateinit var englishWord: String
     private var quantity: Int = 0
 
     override fun onCreateView(
@@ -69,7 +67,6 @@ class WordFillingFragment : Fragment() {
             val random = Random()
             val randomIndex = random.nextInt(newListEnglishes.size)
             val english = newListEnglishes[randomIndex]
-
             val vietnamese = detailVocabularyViewModel.getVietnameseByEnglish(english)
 
             detailPracticeActivity.setQuestion(english)
@@ -77,7 +74,6 @@ class WordFillingFragment : Fragment() {
 
             withContext(Dispatchers.Main) {
                 textViewQuestion.text = vietnamese
-
                 editTextAnswer.setOnFocusChangeListener { _ , hasFocus ->
                     if (hasFocus) {
                         editTextAnswer.hint = replaceWithUnderscores(english)
@@ -91,6 +87,8 @@ class WordFillingFragment : Fragment() {
             textViewSaved.visibility = View.VISIBLE
 
             detailPracticeActivity.setAnswer(editTextAnswer.text.toString())
+
+            quantity = detailPracticeActivity.getQuantity()
 
             detailPracticeActivity.replaceOrAddAnswer(editTextAnswer.text.toString(), quantity)
 

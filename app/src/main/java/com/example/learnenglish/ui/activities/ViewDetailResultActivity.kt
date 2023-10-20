@@ -43,30 +43,24 @@ class ViewDetailResultActivity : AppCompatActivity() {
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val receivedIntent = intent
+        receivedData = intent.getStringExtra(Title)
+        listQuestions = intent.getStringExtra(ListQuestions)
+        listAnswers = intent.getStringExtra(ListAnswers)
 
-        if (receivedIntent != null) {
-            receivedData = receivedIntent.getStringExtra(Title)
-            listQuestions = receivedIntent.getStringExtra(ListQuestions)
-            listAnswers = receivedIntent.getStringExtra(ListAnswers)
-
-            if (receivedData != null) {
-                supportActionBar?.title =
-                    Html.fromHtml(
-                        "<font color=\"#442C2E\">$receivedData</font>",
-                        Html.FROM_HTML_MODE_LEGACY
-                    )
-            }
-        }
+        supportActionBar?.title =
+            Html.fromHtml(
+                "<font color=\"#442C2E\">$receivedData</font>",
+                Html.FROM_HTML_MODE_LEGACY
+            )
 
         val recyclerViewDetailResult: RecyclerView = findViewById(R.id.recyclerViewDetailResult)
-
         val listQuestion = listQuestions?.let { changeStringToList(it) }
         val listAnswer = listAnswers?.let { changeStringToOtherList(it) }
+        val resultList = mutableListOf<DetailResult>()
+
         if (!listAnswer.isNullOrEmpty()) {
             modifiedList = listAnswer.drop(1)
         }
-        val resultList = mutableListOf<DetailResult>()
 
         if (listQuestion != null) {
             for (i in 0 until minOf(listQuestion.size, modifiedList.size)) {

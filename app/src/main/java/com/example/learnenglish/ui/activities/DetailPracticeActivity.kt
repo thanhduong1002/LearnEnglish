@@ -42,19 +42,13 @@ class DetailPracticeActivity : AppCompatActivity() {
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val receivedIntent = intent
+        receivedData = intent.getStringExtra(Quantity)
 
-        if (receivedIntent != null) {
-            receivedData = receivedIntent.getStringExtra(Quantity)
-
-            if (receivedData != null) {
-                supportActionBar?.title =
-                    Html.fromHtml(
-                        "<font color=\"#442C2E\">$quantity/$receivedData</font>",
-                        Html.FROM_HTML_MODE_LEGACY
-                    )
-            }
-        }
+        supportActionBar?.title =
+            Html.fromHtml(
+                "<font color=\"#442C2E\">$quantity/$receivedData</font>",
+                Html.FROM_HTML_MODE_LEGACY
+            )
 
         receivedData?.let { checkAndUpdate(it.toInt()) }
     }
@@ -132,7 +126,7 @@ class DetailPracticeActivity : AppCompatActivity() {
             if (quantity == questions + 1) {
                 intent = Intent(this, ResultActivity::class.java)
 
-                intent.putExtra(ResultActivity.Title, "Result")
+                intent.putExtra(ResultActivity.Title, getString(R.string.title_result))
                 intent.putExtra(ResultActivity.Result, result.toString())
                 intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
                 intent.putExtra(ResultActivity.ListQuestions, arrayQuestions.toTypedArray())
