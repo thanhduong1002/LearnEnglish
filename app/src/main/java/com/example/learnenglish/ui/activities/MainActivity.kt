@@ -1,9 +1,12 @@
 package com.example.learnenglish.ui.activities
 
+import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.view.Menu
+import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,12 +26,28 @@ class MainActivity : AppCompatActivity() {
             Html.FROM_HTML_MODE_LEGACY
         )
 
-        val listOptions: List<String> = listOf("Vocabulary", "Practice")
+        val listOptions: List<String> = listOf("Vocabulary", "Practice", "Listening")
         val recyclerViewOptions: RecyclerView = findViewById(R.id.recyclerViewOptions)
 
         optionAdapter = OptionAdapter(listOptions)
         recyclerViewOptions.layoutManager = LinearLayoutManager(this)
         recyclerViewOptions.adapter = optionAdapter
+    }
 
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_settings -> {
+                val intent = Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

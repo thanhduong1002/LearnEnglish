@@ -75,6 +75,8 @@ class ViewDetailResultActivity : AppCompatActivity() {
         detailResultAdapter = DetailResultAdapter(resultList, detailVocabularyViewModel)
         recyclerViewDetailResult.layoutManager = LinearLayoutManager(this)
         recyclerViewDetailResult.adapter = detailResultAdapter
+
+        detailResultAdapter.setIsListening(intent.getStringExtra(isListening).toString())
     }
 
     private fun changeStringToList(input: String): List<String> {
@@ -89,5 +91,6 @@ class ViewDetailResultActivity : AppCompatActivity() {
         const val Title = "Title"
         const val ListQuestions = "ListQuestions"
         const val ListAnswers = "ListAnswers"
+        const val isListening = "isListening"
     }
 }
