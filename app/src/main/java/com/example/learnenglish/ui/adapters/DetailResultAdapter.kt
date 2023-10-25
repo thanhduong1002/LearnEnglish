@@ -21,7 +21,10 @@ class DetailResultAdapter(
     private val detailVocabularyViewModel: DetailVocabularyViewModel
 ) :
     RecyclerView.Adapter<DetailResultAdapter.DetailResultViewHolder>() {
-
+    private lateinit var isListening: String
+    fun setIsListening(newIsListening: String) {
+        isListening = newIsListening
+    }
 
     private fun compareStringsIgnoreCase(str1: String, str2: String): Boolean {
         return str1.equals(str2, ignoreCase = true)
@@ -53,8 +56,11 @@ class DetailResultAdapter(
             vietnameseQuestion = detailVocabularyViewModel.getVietnameseByEnglish(item.question)
 
             holder.itemView.post {
-                if (position % 2 == 0) holder.textResult.text = vietnameseQuestion
-                else holder.textResult.text = item.question
+                holder.textResult.text = if (isListening == "true" || position % 2 != 0) {
+                    item.question
+                } else {
+                    vietnameseQuestion
+                }
 
                 holder.textAnswer.text = item.answer
 

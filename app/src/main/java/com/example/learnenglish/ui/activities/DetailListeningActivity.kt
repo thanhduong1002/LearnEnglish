@@ -11,10 +11,9 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.learnenglish.R
-import com.example.learnenglish.ui.fragments.MultipleChoiceFragment
-import com.example.learnenglish.ui.fragments.WordFillingFragment
+import com.example.learnenglish.ui.fragments.ListenAndWriteFragment
 
-class DetailPracticeActivity : AppCompatActivity() {
+class DetailListeningActivity : AppCompatActivity() {
     private var quantity: Int = 1
     private var receivedData: String? = ""
     private var result: Int = 0
@@ -27,9 +26,9 @@ class DetailPracticeActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_practice)
+        setContentView(R.layout.activity_detail_listening)
 
-        receivedData = intent.getStringExtra(Quantity)
+        receivedData = intent.getStringExtra(DetailPracticeActivity.Quantity)
 
         supportActionBar?.title =
             Html.fromHtml(
@@ -118,6 +117,7 @@ class DetailPracticeActivity : AppCompatActivity() {
                 intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
                 intent.putExtra(ResultActivity.ListQuestions, arrayQuestions.toTypedArray())
                 intent.putExtra(ResultActivity.ListAnswers, arrayAnswers.toTypedArray())
+                intent.putExtra(ResultActivity.isListening, "true")
 
                 startActivity(intent)
             }
@@ -139,7 +139,6 @@ class DetailPracticeActivity : AppCompatActivity() {
             if (quantity + 1 == receivedData?.toInt()) {
                 intent = Intent(this, ResultActivity::class.java)
 
-                intent.putExtra(ResultActivity.Result, result.toString())
                 intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
 
                 startActivity(intent)
@@ -152,9 +151,9 @@ class DetailPracticeActivity : AppCompatActivity() {
     private fun updateFragment(number: Int) {
         val fragmentTransaction = supportFragmentManager.beginTransaction()
         val fragment = if (number % 2 != 0) {
-            MultipleChoiceFragment()
+            ListenAndWriteFragment()
         } else {
-            WordFillingFragment()
+            ListenAndWriteFragment()
         }
 
         fragmentTransaction.replace(R.id.mainContainer, fragment)

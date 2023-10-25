@@ -6,10 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.res.TypedArrayUtils
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
+import com.example.learnenglish.ui.activities.ListeningActivity
 import com.example.learnenglish.ui.activities.PracticeActivity
 import com.example.learnenglish.ui.activities.VocabularyActivity
 
@@ -67,6 +67,14 @@ class OptionAdapter(private var listOptions: List<String>) :
                     intent = Intent(holder.itemView.context, DetailPracticeActivity::class.java)
 
                     intent.putExtra(DetailPracticeActivity.Quantity, getNumberQuestions(item))
+
+                    holder.itemView.context.startActivity(intent)
+                }
+
+                "Listening" -> {
+                    intent = Intent(holder.itemView.context, ListeningActivity::class.java)
+
+                    intent.putExtra(ListeningActivity.Title, item)
 
                     holder.itemView.context.startActivity(intent)
                 }

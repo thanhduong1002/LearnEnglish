@@ -18,6 +18,7 @@ class ResultActivity : AppCompatActivity() {
     private var questions: String? = ""
     private var listQuestions: String? = ""
     private var listAnswers: String? = ""
+    private var isListeningActivity: String = "false"
 
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.N)
@@ -36,6 +37,7 @@ class ResultActivity : AppCompatActivity() {
         questions = intent.getStringExtra(QuantityQuestion)
         listQuestions = intent.getStringArrayExtra(ListQuestions)?.joinToString(", ")
         listAnswers = intent.getStringArrayExtra(ListAnswers)?.joinToString(". ")
+        isListeningActivity = intent.getStringExtra(isListening).toString()
 
         supportActionBar?.title =
             Html.fromHtml(
@@ -63,12 +65,12 @@ class ResultActivity : AppCompatActivity() {
                 ?.let { imageViewEmotion.setImageResource(it / 3) }
         }
 
+        if (isListeningActivity == "true") {
+            buttonBack.text = getString(R.string.text_button_back_listen)
+        }
+
         buttonBack.setOnClickListener {
-            intent = Intent(this, PracticeActivity::class.java)
-
-            intent.putExtra(PracticeActivity.Title, getString(R.string.title_practice))
-
-            startActivity(intent)
+            handleNavigateBack(isListeningActivity)
         }
 
         buttonDetailResult.setOnClickListener {
@@ -77,6 +79,7 @@ class ResultActivity : AppCompatActivity() {
             intent.putExtra(ViewDetailResultActivity.Title, getString(R.string.title_detail_result))
             intent.putExtra(ViewDetailResultActivity.ListQuestions, listQuestions)
             intent.putExtra(ViewDetailResultActivity.ListAnswers, listAnswers)
+            intent.putExtra(ViewDetailResultActivity.isListening, isListeningActivity)
 
             startActivity(intent)
         }
@@ -102,11 +105,26 @@ class ResultActivity : AppCompatActivity() {
         }
     }
 
+    private fun handleNavigateBack(isListening: String) {
+        if (isListening == "true") {
+            intent = Intent(this, ListeningActivity::class.java)
+
+            intent.putExtra(ListeningActivity.Title, getString(R.string.title_listening))
+        } else {
+            intent = Intent(this, PracticeActivity::class.java)
+
+            intent.putExtra(PracticeActivity.Title, getString(R.string.title_practice))
+        }
+
+        startActivity(intent)
+    }
+
     companion object {
         const val Result = "Result"
         const val Title = "Title"
         const val QuantityQuestion = "QuantityQuestion"
         const val ListQuestions = "ListQuestions"
         const val ListAnswers = "ListAnswers"
+        const val isListening = "isListening"
     }
 }

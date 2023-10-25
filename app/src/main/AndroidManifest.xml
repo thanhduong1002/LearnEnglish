@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".application.BaseApplication"
         android:allowBackup="true"
@@ -13,6 +16,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LearnEnglish"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activities.DetailListeningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activities.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.activities.MainActivity" />
+        <activity
+            android:name=".ui.activities.ListeningActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.activities.MainActivity" />
         <activity
             android:name=".ui.activities.YourAnswerActivity"
             android:exported="false" />
@@ -52,5 +66,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver
+            android:name=".receivers.MyBroadcastReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.example.learnenglish.ALARM_ACTION" />
+            </intent-filter>
+        </receiver>
     </application>
+
 </manifest>
