@@ -3,21 +3,21 @@ package com.example.learnenglish.ui.activities
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.models.DetailResult
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.databinding.ActivityViewDetailResultBinding
+import com.example.learnenglish.extensions.setHtmlTitle
 import com.example.learnenglish.ui.adapters.DetailResultAdapter
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 
 class ViewDetailResultActivity : AppCompatActivity() {
-    private var receivedData: String? = ""
+    private var titleScreen: String? = ""
     private var listQuestions: String? = ""
     private var listAnswers: String? = ""
     private var modifiedList: List<String> = listOf()
@@ -26,34 +26,30 @@ class ViewDetailResultActivity : AppCompatActivity() {
     private lateinit var detailVocabularyDao: DetailVocabularyDao
     private lateinit var detailVocabularyRepository: DetailVocabularyRepository
     private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
+    private lateinit var binding: ActivityViewDetailResultBinding
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_view_detail_result)
+
+        binding = ActivityViewDetailResultBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val customIcon = ContextCompat.getDrawable(this, R.drawable.practice_icon)
-
         customIcon?.setTint(ContextCompat.getColor(this, R.color.text))
-
-        supportActionBar?.setHomeAsUpIndicator(customIcon)
 
         database = AppDatabase.getDatabase(this)
         detailVocabularyDao = database.detailVocabularyDao()
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        receivedData = intent.getStringExtra(Title)
-        listQuestions = intent.getStringExtra(ListQuestions)
-        listAnswers = intent.getStringExtra(ListAnswers)
+        titleScreen = intent.getStringExtra(Title) ?: ""
+        listQuestions = intent.getStringExtra(ListQuestions) ?: ""
+        listAnswers = intent.getStringExtra(ListAnswers) ?: ""
 
-        supportActionBar?.title =
-            Html.fromHtml(
-                "<font color=\"#442C2E\">$receivedData</font>",
-                Html.FROM_HTML_MODE_LEGACY
-            )
+        supportActionBar?.setHtmlTitle(titleScreen!!)
+        supportActionBar?.setHomeAsUpIndicator(customIcon)
 
-        val recyclerViewDetailResult: RecyclerView = findViewById(R.id.recyclerViewDetailResult)
         val listQuestion = listQuestions?.let { changeStringToList(it) }
         val listAnswer = listAnswers?.let { changeStringToOtherList(it) }
         val resultList = mutableListOf<DetailResult>()
@@ -73,19 +69,15 @@ class ViewDetailResultActivity : AppCompatActivity() {
         }
 
         detailResultAdapter = DetailResultAdapter(resultList, detailVocabularyViewModel)
-        recyclerViewDetailResult.layoutManager = LinearLayoutManager(this)
-        recyclerViewDetailResult.adapter = detailResultAdapter
+        binding.recyclerViewDetailResult.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewDetailResult.adapter = detailResultAdapter
 
         detailResultAdapter.setIsListening(intent.getStringExtra(isListening).toString())
     }
 
-    private fun changeStringToList(input: String): List<String> {
-        return input.split(", ").map { it.trim() }
-    }
+    private fun changeStringToList(input: String) = input.split(", ").map { it.trim() }
 
-    private fun changeStringToOtherList(input: String): List<String> {
-        return input.split(". ").map { it.trim() }
-    }
+    private fun changeStringToOtherList(input: String) = input.split(". ").map { it.trim() }
 
     companion object {
         const val Title = "Title"

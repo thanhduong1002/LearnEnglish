@@ -2,16 +2,17 @@ package com.example.learnenglish.ui.adapters
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
+import com.example.learnenglish.databinding.OptionItemBinding
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
 
-class AnswerAdapter(private var listAnswers: List<String>, private val activity: DetailPracticeActivity) :
+class AnswerAdapter(
+    private var listAnswers: List<String>,
+    private val activity: DetailPracticeActivity
+) :
     RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
 
     private var selectedPosition = -1
@@ -23,16 +24,17 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
         this.listAnswers = listAnswers
     }
 
-    class AnswerViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textViewOption: TextView = view.findViewById(R.id.textViewOption)
-        val cardItem: CardView = view.findViewById(R.id.optionItem)
-    }
+    inner class AnswerViewHolder(val answerItemBinding: OptionItemBinding) :
+        RecyclerView.ViewHolder(answerItemBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AnswerViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.option_item, parent, false)
-
-        return AnswerViewHolder(adapterLayout)
+        return AnswerViewHolder(
+            OptionItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -43,15 +45,15 @@ class AnswerAdapter(private var listAnswers: List<String>, private val activity:
     override fun onBindViewHolder(holder: AnswerViewHolder, position: Int) {
         val item = listAnswers[position]
 
-        holder.textViewOption.text = item
-        holder.cardItem.setCardBackgroundColor(
+        holder.answerItemBinding.textViewOption.text = item
+        holder.answerItemBinding.optionItem.setCardBackgroundColor(
             if (position == selectedPosition) {
                 ContextCompat.getColor(holder.itemView.context, selectedColorRes)
             } else {
                 ContextCompat.getColor(holder.itemView.context, normalColorRes)
             }
         )
-        holder.cardItem.setOnClickListener {
+        holder.answerItemBinding.optionItem.setOnClickListener {
             if (selectedPosition != position) {
                 notifyItemChanged(selectedPosition)
 

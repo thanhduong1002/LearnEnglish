@@ -4,30 +4,30 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.data.models.Vocabulary
+import com.example.learnenglish.databinding.ActivityVocabularyBinding
+import com.example.learnenglish.extensions.setHtmlTitle
 import com.example.learnenglish.ui.adapters.VocabularyAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class VocabularyActivity : AppCompatActivity() {
     private lateinit var vocabularyAdapter: VocabularyAdapter
+    private lateinit var binding: ActivityVocabularyBinding
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_vocabulary)
+
+        binding = ActivityVocabularyBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         val receivedData = intent.getStringExtra(Title)
         val title = receivedData ?: "Vocabulary"
 
-        supportActionBar?.title = Html.fromHtml(
-            "<font color=\"#442C2E\">$title</font>",
-            Html.FROM_HTML_MODE_LEGACY
-        )
+        supportActionBar?.setHtmlTitle(title)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val listVocabularies: List<Vocabulary> = listOf(
@@ -47,11 +47,9 @@ class VocabularyActivity : AppCompatActivity() {
             Vocabulary("Other", R.drawable.other),
         )
 
-        val recyclerViewVocabulary: RecyclerView = findViewById(R.id.recyclerViewVocabularies)
-
         vocabularyAdapter = VocabularyAdapter(listVocabularies)
-        recyclerViewVocabulary.layoutManager = LinearLayoutManager(this)
-        recyclerViewVocabulary.adapter = vocabularyAdapter
+        binding.recyclerViewVocabularies.layoutManager = LinearLayoutManager(this)
+        binding.recyclerViewVocabularies.adapter = vocabularyAdapter
 
         val floatingActionButton: FloatingActionButton = findViewById(R.id.floatingActionButton)
 

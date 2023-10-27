@@ -2,65 +2,51 @@ package com.example.learnenglish.ui.activities
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.text.Html
-import android.util.Log
-import android.widget.Button
-import android.widget.NumberPicker
 import androidx.annotation.RequiresApi
-import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.example.learnenglish.R
+import com.example.learnenglish.databinding.ActivitySettingsBinding
+import com.example.learnenglish.extensions.setHtmlTitle
 import com.example.learnenglish.receivers.MyBroadcastReceiver
 import java.util.Calendar
 
 class SettingsActivity : AppCompatActivity() {
     private var hour: Int = 0
     private var minute: Int = 0
-    private val notificationId = 1
-    private val handler = Handler()
-    private val notificationDelayMillis = 10 * 60 * 1000
+    private lateinit var binding: ActivitySettingsBinding
 
     @SuppressLint("MissingPermission")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
 
-        supportActionBar?.title = Html.fromHtml(
-            "<font color=\"#442C2E\">${getString(R.string.settings)}</font>",
-            Html.FROM_HTML_MODE_LEGACY
-        )
+        binding = ActivitySettingsBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        supportActionBar?.setHtmlTitle(getString(R.string.settings))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
-        val numberPickerHour: NumberPicker = findViewById(R.id.numberPickerHour)
-        val numberPickerMinute: NumberPicker = findViewById(R.id.numberPickerMinute)
-        val buttonSet: Button = findViewById(R.id.buttonSet)
+        binding.numberPickerHour.minValue = 0
+        binding.numberPickerHour.maxValue = 23
+        binding.numberPickerHour.value = 21
+        hour = 21
 
-        numberPickerHour.minValue = 0
-        numberPickerHour.maxValue = 23
-        numberPickerHour.value = 21
+        binding.numberPickerMinute.minValue = 0
+        binding.numberPickerMinute.maxValue = 59
+        binding.numberPickerMinute.value = 0
 
-        numberPickerMinute.minValue = 0
-        numberPickerMinute.maxValue = 59
-        numberPickerMinute.value = 0
-
-        numberPickerHour.setOnValueChangedListener { _, _, newHour ->
+        binding.numberPickerHour.setOnValueChangedListener { _, _, newHour ->
             setHour(newHour)
         }
-        numberPickerMinute.setOnValueChangedListener { _, _, newMinute ->
+        binding.numberPickerMinute.setOnValueChangedListener { _, _, newMinute ->
             setMinute(newMinute)
         }
-        buttonSet.setOnClickListener {
+        binding.buttonSet.setOnClickListener {
             val intent = Intent(this, MyBroadcastReceiver::class.java)
             intent.putExtra("hour", hour)
             intent.putExtra("minute", minute)

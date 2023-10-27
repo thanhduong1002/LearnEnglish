@@ -2,12 +2,9 @@ package com.example.learnenglish.ui.adapters
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.learnenglish.R
+import com.example.learnenglish.databinding.OptionItemBinding
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
 import com.example.learnenglish.ui.activities.ListeningActivity
 import com.example.learnenglish.ui.activities.PracticeActivity
@@ -15,16 +12,17 @@ import com.example.learnenglish.ui.activities.VocabularyActivity
 
 class OptionAdapter(private var listOptions: List<String>) :
     RecyclerView.Adapter<OptionAdapter.OptionViewHolder>() {
-    class OptionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textViewOption: TextView = view.findViewById(R.id.textViewOption)
-        val cardItem: CardView = view.findViewById(R.id.optionItem)
-    }
+    inner class OptionViewHolder(val optionItemBinding: OptionItemBinding) :
+        RecyclerView.ViewHolder(optionItemBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OptionViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.option_item, parent, false)
-
-        return OptionViewHolder(adapterLayout)
+        return OptionViewHolder(
+            OptionItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -34,8 +32,8 @@ class OptionAdapter(private var listOptions: List<String>) :
     override fun onBindViewHolder(holder: OptionViewHolder, position: Int) {
         val item = listOptions[position]
 
-        holder.textViewOption.text = item
-        holder.cardItem.setOnClickListener {
+        holder.optionItemBinding.textViewOption.text = item
+        holder.optionItemBinding.optionItem.setOnClickListener {
             val intent: Intent
 
             when (item) {

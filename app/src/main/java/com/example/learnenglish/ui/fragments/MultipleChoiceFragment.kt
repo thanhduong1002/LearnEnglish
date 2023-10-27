@@ -10,14 +10,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.databinding.FragmentMultipleChoiceBinding
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
 import com.example.learnenglish.ui.adapters.AnswerAdapter
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
@@ -37,12 +36,14 @@ class MultipleChoiceFragment : Fragment() {
     private lateinit var listVietnameses: List<String>
     private lateinit var randomGroup: List<String>
     private var randomIndex: Int = 0
+    private lateinit var binding: FragmentMultipleChoiceBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_multiple_choice, container, false)
+    ): View {
+        binding = FragmentMultipleChoiceBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -56,19 +57,16 @@ class MultipleChoiceFragment : Fragment() {
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
-        val recyclerViewAnswer: RecyclerView = view.findViewById(R.id.recyclerViewAnswer)
         val detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
         answerAdapter = AnswerAdapter(emptyList(), detailPracticeActivity)
-        recyclerViewAnswer.layoutManager = LinearLayoutManager(requireContext())
-        recyclerViewAnswer.adapter = answerAdapter
+        binding.recyclerViewAnswer.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerViewAnswer.adapter = answerAdapter
 
         GlobalScope.launch(Dispatchers.IO) {
             listVietnameses = detailVocabularyViewModel.getAllVietnameseWords()
 
-            val listEnglishToRemove: List<String> =
-                detailPracticeActivity.getListQuestions().toList()
+            val listEnglishToRemove = detailPracticeActivity.getListQuestions().toList()
             val newListVietnameses = listVietnameses.filter { vietnameseWord ->
                 !listEnglishToRemove.any { englishWord ->
                     detailVocabularyViewModel.getEnglishByVietnamese(vietnameseWord) == englishWord
@@ -90,7 +88,7 @@ class MultipleChoiceFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 answerAdapter.setAnswersList(randomGroup)
                 answerAdapter.notifyDataSetChanged()
-                textViewQuestion.text = spannable
+                binding.textViewQuestion.text = spannable
             }
         }
     }

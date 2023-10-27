@@ -2,14 +2,12 @@ package com.example.learnenglish.ui.adapters
 
 import android.graphics.PorterDuff
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.data.models.DetailResult
+import com.example.learnenglish.databinding.DetailResultItemBinding
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
@@ -30,17 +28,17 @@ class DetailResultAdapter(
         return str1.equals(str2, ignoreCase = true)
     }
 
-    class DetailResultViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val textResult: TextView = view.findViewById(R.id.textResult)
-        val textAnswer: TextView = view.findViewById(R.id.textAnswer)
-        val imageResult: ImageView = view.findViewById(R.id.imageResult)
-    }
+    class DetailResultViewHolder(val detailResultItemBinding: DetailResultItemBinding) :
+        RecyclerView.ViewHolder(detailResultItemBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailResultViewHolder {
-        val adapterLayout = LayoutInflater.from(parent.context)
-            .inflate(R.layout.detail_result_item, parent, false)
-
-        return DetailResultViewHolder(adapterLayout)
+        return DetailResultViewHolder(
+            DetailResultItemBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
+        )
     }
 
     override fun getItemCount(): Int {
@@ -56,13 +54,13 @@ class DetailResultAdapter(
             vietnameseQuestion = detailVocabularyViewModel.getVietnameseByEnglish(item.question)
 
             holder.itemView.post {
-                holder.textResult.text = if (isListening == "true" || position % 2 != 0) {
+                holder.detailResultItemBinding.textResult.text = if (isListening == "true" || position % 2 != 0) {
                     item.question
                 } else {
                     vietnameseQuestion
                 }
 
-                holder.textAnswer.text = item.answer
+                holder.detailResultItemBinding.textAnswer.text = item.answer
 
                 val iconResource =
                     if (vietnameseQuestion == item.answer || compareStringsIgnoreCase(
@@ -84,8 +82,8 @@ class DetailResultAdapter(
 
                 val color = ContextCompat.getColor(holder.itemView.context, colorId)
 
-                holder.imageResult.setColorFilter(color, PorterDuff.Mode.SRC_IN)
-                holder.imageResult.setImageResource(iconResource)
+                holder.detailResultItemBinding.imageResult.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+                holder.detailResultItemBinding.imageResult.setImageResource(iconResource)
             }
         }
     }
