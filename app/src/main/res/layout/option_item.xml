@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/space_100dp"
         android:layout_margin="@dimen/space_10dp"
-        android:background="@color/main"
+        app:cardBackgroundColor="@color/main"
         app:cardCornerRadius="@dimen/space_10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

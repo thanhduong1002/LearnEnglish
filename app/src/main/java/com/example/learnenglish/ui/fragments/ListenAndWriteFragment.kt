@@ -10,15 +10,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.databinding.FragmentListenAndWriteBinding
 import com.example.learnenglish.ui.activities.DetailListeningActivity
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -39,12 +36,14 @@ class ListenAndWriteFragment : Fragment() {
     private lateinit var textToSpeech: TextToSpeech
     private var isHint: Boolean = true
     private var quantity: Int = 0
+    private lateinit var binding: FragmentListenAndWriteBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_listen_and_write, container, false)
+    ): View {
+        binding = FragmentListenAndWriteBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @SuppressLint("SetTextI18n", "ResourceAsColor")
@@ -57,13 +56,6 @@ class ListenAndWriteFragment : Fragment() {
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val editTextAnswer: EditText = view.findViewById(R.id.editAnswer)
-        val imageSaved: ImageView = view.findViewById(R.id.imageSaved)
-        val textViewSaved: TextView = view.findViewById(R.id.textViewSaved)
-        val textViewSuggestion: TextView = view.findViewById(R.id.textViewSuggestion)
-        val buttonSpeaker: Button = view.findViewById(R.id.speakerButton)
-        val imageHint: ImageView = view.findViewById(R.id.imageHint)
-        val textViewHint: TextView = view.findViewById(R.id.textViewHint)
         val detailListeningActivity = requireActivity() as DetailListeningActivity
 
         detailListeningActivity.setAnswer("")
@@ -82,48 +74,48 @@ class ListenAndWriteFragment : Fragment() {
             detailListeningActivity.addNewQuestion(english)
 
             withContext(Dispatchers.Main) {
-                textViewSuggestion.text = "It has ${english.length} characters"
-                textViewHint.text = vietnamese
-                editTextAnswer.setOnFocusChangeListener { _ , hasFocus ->
+                binding.textViewSuggestion.text = "It has ${english.length} characters"
+                binding.textViewHint.text = vietnamese
+                binding.editAnswer.setOnFocusChangeListener { _ , hasFocus ->
                     if (hasFocus) {
-                        textViewSaved.visibility = View.INVISIBLE
+                        binding.textViewSaved.visibility = View.INVISIBLE
                     }
                 }
             }
         }
 
-        buttonSpeaker.setOnClickListener {
+        binding.speakerButton.setOnClickListener {
             handleSpeaker(textForSpeech)
         }
 
-        imageHint.setOnClickListener {
+        binding.imageHint.setOnClickListener {
             if (isHint) {
-                imageHint.setColorFilter(ContextCompat.getColor(requireContext(), R.color.yellow))
+                binding.imageHint.setColorFilter(ContextCompat.getColor(requireContext(), R.color.yellow))
 
-                textViewHint.visibility = View.VISIBLE
+                binding.textViewHint.visibility = View.VISIBLE
             }
             else {
-                imageHint.clearColorFilter()
+                binding.imageHint.clearColorFilter()
 
-                textViewHint.visibility = View.INVISIBLE
+                binding.textViewHint.visibility = View.INVISIBLE
             }
 
             isHint = !isHint
         }
 
-        imageSaved.setOnClickListener {
-            textViewSaved.visibility = View.VISIBLE
+        binding.imageSaved.setOnClickListener {
+            binding.textViewSaved.visibility = View.VISIBLE
 
-            detailListeningActivity.setAnswer(editTextAnswer.text.toString())
+            detailListeningActivity.setAnswer(binding.editAnswer.text.toString())
 
             quantity = detailListeningActivity.getQuantity()
 
-            detailListeningActivity.replaceOrAddAnswer(editTextAnswer.text.toString(), quantity)
+            detailListeningActivity.replaceOrAddAnswer(binding.editAnswer.text.toString(), quantity)
 
             val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(editTextAnswer.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(binding.editAnswer.windowToken, 0)
 
-            editTextAnswer.clearFocus()
+            binding.editAnswer.clearFocus()
         }
     }
 

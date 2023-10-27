@@ -6,11 +6,10 @@ import android.graphics.Paint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Html
-import android.widget.Button
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import com.example.learnenglish.R
+import com.example.learnenglish.databinding.ActivityDetailListeningBinding
+import com.example.learnenglish.extensions.setHtmlTitle
 import com.example.learnenglish.ui.fragments.ListenAndWriteFragment
 
 class DetailListeningActivity : AppCompatActivity() {
@@ -22,19 +21,18 @@ class DetailListeningActivity : AppCompatActivity() {
     private var isTrue: Boolean = false
     private var arrayQuestions: ArrayList<String> = ArrayList()
     private var arrayAnswers: ArrayList<String> = arrayListOf("example")
+    private lateinit var binding: ActivityDetailListeningBinding
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail_listening)
+
+        binding = ActivityDetailListeningBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         receivedData = intent.getStringExtra(DetailPracticeActivity.Quantity)
 
-        supportActionBar?.title =
-            Html.fromHtml(
-                "<font color=\"#442C2E\">$quantity/$receivedData</font>",
-                Html.FROM_HTML_MODE_LEGACY
-            )
+        supportActionBar?.setHtmlTitle("$quantity/$receivedData")
 
         receivedData?.let { checkAndUpdate(it.toInt()) }
     }
@@ -48,9 +46,7 @@ class DetailListeningActivity : AppCompatActivity() {
     }
 
     private fun setNewResult(isTrue: Boolean) {
-        if (isTrue) {
-            result++
-        }
+        result += if (isTrue) 1 else 0
     }
 
     fun setQuestion(newQuestion: String) {
@@ -62,13 +58,10 @@ class DetailListeningActivity : AppCompatActivity() {
         isTrue = compareAnswerAndQuestion(answer, question)
     }
 
-    fun addNewQuestion(newQuestion: String) {
-        arrayQuestions.add(newQuestion)
-    }
+    fun addNewQuestion(newQuestion: String) = arrayQuestions.add(newQuestion)
 
-    private fun addNewAnswer(newAnswer: String) {
-        arrayAnswers.add(newAnswer)
-    }
+    private fun addNewAnswer(newAnswer: String) = arrayAnswers.add(newAnswer)
+
 
     fun replaceOrAddAnswer(newAnswer: String, number: Int) {
         if (number >= 0 && number < arrayAnswers.size) {
@@ -78,70 +71,59 @@ class DetailListeningActivity : AppCompatActivity() {
         }
     }
 
-    fun getListQuestions(): ArrayList<String> {
-        return arrayQuestions
-    }
+    fun getListQuestions() = arrayQuestions
 
-    fun getQuantity(): Int {
-        return quantity
-    }
+
+    fun getQuantity() = quantity
+
 
     @RequiresApi(Build.VERSION_CODES.N)
     @SuppressLint("SetTextI18n")
     private fun checkAndUpdate(questions: Int) {
-        val buttonCheck: Button = findViewById(R.id.buttonCheck)
-        val forgetTextView: TextView = findViewById(R.id.textViewForget)
-
-        forgetTextView.paintFlags = forgetTextView.paintFlags or Paint.UNDERLINE_TEXT_FLAG
+        binding.textViewForget.paintFlags = binding.textViewForget.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         updateFragment(quantity)
 
-        buttonCheck.setOnClickListener {
+        intent = Intent(this, ResultActivity::class.java)
+
+        binding.buttonCheck.setOnClickListener {
             if (answer == "") replaceOrAddAnswer("", quantity)
 
             setNewResult(isTrue)
 
             quantity++
 
-            supportActionBar?.title =
-                Html.fromHtml(
-                    "<font color=\"#442C2E\">$quantity/$receivedData</font>",
-                    Html.FROM_HTML_MODE_LEGACY
-                )
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData")
 
             if (quantity == questions + 1) {
-                intent = Intent(this, ResultActivity::class.java)
-
-                intent.putExtra(ResultActivity.Title, getString(R.string.title_result))
-                intent.putExtra(ResultActivity.Result, result.toString())
-                intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
-                intent.putExtra(ResultActivity.ListQuestions, arrayQuestions.toTypedArray())
-                intent.putExtra(ResultActivity.ListAnswers, arrayAnswers.toTypedArray())
-                intent.putExtra(ResultActivity.isListening, "true")
-
-                startActivity(intent)
+                intent.apply {
+                    putExtra(ResultActivity.Title, getString(R.string.title_result))
+                    putExtra(ResultActivity.Result, result.toString())
+                    putExtra(ResultActivity.QuantityQuestion, questions.toString())
+                    putExtra(ResultActivity.ListQuestions, arrayQuestions.toTypedArray())
+                    putExtra(ResultActivity.ListAnswers, arrayAnswers.toTypedArray())
+                    putExtra(ResultActivity.isListening, "true")
+                }.run {
+                    startActivity(this)
+                }
             }
 
             updateFragment(quantity)
         }
 
-        forgetTextView.setOnClickListener {
+        binding.textViewForget.setOnClickListener {
             addNewAnswer("")
 
             quantity++
 
-            supportActionBar?.title =
-                Html.fromHtml(
-                    "<font color=\"#442C2E\">$quantity/$receivedData</font>",
-                    Html.FROM_HTML_MODE_LEGACY
-                )
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData")
 
             if (quantity + 1 == receivedData?.toInt()) {
-                intent = Intent(this, ResultActivity::class.java)
-
-                intent.putExtra(ResultActivity.QuantityQuestion, questions.toString())
-
-                startActivity(intent)
+                intent.apply {
+                    putExtra(ResultActivity.QuantityQuestion, questions.toString())
+                }. run {
+                    startActivity(this)
+                }
             }
 
             updateFragment(quantity)

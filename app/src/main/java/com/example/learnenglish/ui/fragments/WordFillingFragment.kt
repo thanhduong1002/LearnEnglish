@@ -7,13 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.databinding.FragmentWordFillingBinding
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -30,12 +27,14 @@ class WordFillingFragment : Fragment() {
     private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var listEnglishes: List<String>
     private var quantity: Int = 0
+    private lateinit var binding: FragmentWordFillingBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_word_filling, container, false)
+    ): View {
+        binding = FragmentWordFillingBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     @DelicateCoroutinesApi
@@ -47,10 +46,6 @@ class WordFillingFragment : Fragment() {
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val textViewQuestion: TextView = view.findViewById(R.id.textViewQuestion)
-        val editTextAnswer: EditText = view.findViewById(R.id.editAnswer)
-        val textViewSaved: TextView = view.findViewById(R.id.textViewSaved)
-        val imageSaved: ImageView = view.findViewById(R.id.imageSaved)
         val detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
         detailPracticeActivity.setAnswer("")
@@ -73,29 +68,29 @@ class WordFillingFragment : Fragment() {
             detailPracticeActivity.addNewQuestion(english)
 
             withContext(Dispatchers.Main) {
-                textViewQuestion.text = vietnamese
-                editTextAnswer.setOnFocusChangeListener { _ , hasFocus ->
+                binding.textViewQuestion.text = vietnamese
+                binding.editAnswer.setOnFocusChangeListener { _ , hasFocus ->
                     if (hasFocus) {
-                        editTextAnswer.hint = replaceWithUnderscores(english)
-                        textViewSaved.visibility = View.INVISIBLE
+                        binding.editAnswer.hint = replaceWithUnderscores(english)
+                        binding.textViewSaved.visibility = View.INVISIBLE
                     }
                 }
             }
         }
 
-        imageSaved.setOnClickListener {
-            textViewSaved.visibility = View.VISIBLE
+        binding.imageSaved.setOnClickListener {
+            binding.textViewSaved.visibility = View.VISIBLE
 
-            detailPracticeActivity.setAnswer(editTextAnswer.text.toString())
+            detailPracticeActivity.setAnswer(binding.editAnswer.text.toString())
 
             quantity = detailPracticeActivity.getQuantity()
 
-            detailPracticeActivity.replaceOrAddAnswer(editTextAnswer.text.toString(), quantity)
+            detailPracticeActivity.replaceOrAddAnswer(binding.editAnswer.text.toString(), quantity)
 
             val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(editTextAnswer.windowToken, 0)
+            inputMethodManager.hideSoftInputFromWindow(binding.editAnswer.windowToken, 0)
 
-            editTextAnswer.clearFocus()
+            binding.editAnswer.clearFocus()
         }
     }
 
