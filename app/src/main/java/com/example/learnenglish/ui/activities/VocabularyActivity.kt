@@ -1,5 +1,6 @@
 package com.example.learnenglish.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ class VocabularyActivity : AppCompatActivity() {
     private lateinit var vocabularyAdapter: VocabularyAdapter
     private lateinit var binding: ActivityVocabularyBinding
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +29,7 @@ class VocabularyActivity : AppCompatActivity() {
         val receivedData = intent.getStringExtra(Title)
         val title = receivedData ?: "Vocabulary"
 
-        supportActionBar?.setHtmlTitle(title)
+        supportActionBar?.setHtmlTitle(title, getColor(R.color.text))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val listVocabularies: List<Vocabulary> = listOf(

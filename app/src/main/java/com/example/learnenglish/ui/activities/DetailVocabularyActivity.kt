@@ -1,11 +1,13 @@
 package com.example.learnenglish.ui.activities
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.learnenglish.R
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.models.DetailVocabulary
@@ -28,6 +30,7 @@ class DetailVocabularyActivity : AppCompatActivity() {
     private lateinit var detailVocabularyAdapter: DetailVocabularyAdapter
     private lateinit var binding: ActivityDetailVocabularyBinding
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +41,7 @@ class DetailVocabularyActivity : AppCompatActivity() {
         titleTopic = intent.getStringExtra(Title).toString()
 
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHtmlTitle(titleTopic)
+        supportActionBar?.setHtmlTitle(titleTopic, getColor(R.color.text))
 
         database = AppDatabase.getDatabase(this)
 

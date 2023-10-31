@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
@@ -78,19 +79,29 @@ class WordFillingFragment : Fragment() {
             }
         }
 
-        binding.imageSaved.setOnClickListener {
-            binding.textViewSaved.visibility = View.VISIBLE
-
+        binding.editAnswer.setOnEditorActionListener { _, actionId, _ ->
             detailPracticeActivity.setAnswer(binding.editAnswer.text.toString())
 
             quantity = detailPracticeActivity.getQuantity()
 
             detailPracticeActivity.replaceOrAddAnswer(binding.editAnswer.text.toString(), quantity)
 
-            val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(binding.editAnswer.windowToken, 0)
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                hideKeyboard()
 
-            binding.editAnswer.clearFocus()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        binding.constraintLayoutFilling.setOnClickListener {
+            hideKeyboard()
+
+            detailPracticeActivity.setAnswer(binding.editAnswer.text.toString())
+
+            quantity = detailPracticeActivity.getQuantity()
+
+            detailPracticeActivity.replaceOrAddAnswer(binding.editAnswer.text.toString(), quantity)
         }
     }
 
@@ -107,5 +118,11 @@ class WordFillingFragment : Fragment() {
         }
 
         return result.toString()
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        inputMethodManager.hideSoftInputFromWindow(binding.editAnswer.windowToken, 0)
     }
 }

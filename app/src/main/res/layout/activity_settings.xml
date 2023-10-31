@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@dimen/space_15dp"
     tools:context=".ui.activities.SettingsActivity">
 
     <TextView
@@ -14,7 +15,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
     <LinearLayout
         android:id="@+id/linearHour"
@@ -68,15 +68,34 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dark_mode"
+        android:id="@+id/textDarkMode"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearHour"/>
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/material_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"
+        app:layout_constraintStart_toEndOf="@+id/textDarkMode"
+        app:layout_constraintTop_toBottomOf="@+id/linearHour" />
+
     <Button
         android:id="@+id/buttonSet"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/set_notification"
         android:textAllCaps="false"
+        android:background="@color/main"
         android:textColor="@color/text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearHour" />
+        app:layout_constraintTop_toBottomOf="@+id/material_switch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

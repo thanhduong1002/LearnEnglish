@@ -34,14 +34,14 @@ class AddVocabularyActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddVocabularyBinding
 
     @RequiresApi(Build.VERSION_CODES.N)
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityAddVocabularyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setHtmlTitle(getString(R.string.title_add_new_word))
+        supportActionBar?.setHtmlTitle(getString(R.string.title_add_new_word), getColor(R.color.text))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         val topicData = arrayOf(

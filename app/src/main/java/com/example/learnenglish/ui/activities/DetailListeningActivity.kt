@@ -23,6 +23,7 @@ class DetailListeningActivity : AppCompatActivity() {
     private var arrayAnswers: ArrayList<String> = arrayListOf("example")
     private lateinit var binding: ActivityDetailListeningBinding
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +33,7 @@ class DetailListeningActivity : AppCompatActivity() {
 
         receivedData = intent.getStringExtra(DetailPracticeActivity.Quantity)
 
-        supportActionBar?.setHtmlTitle("$quantity/$receivedData")
+        supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
 
         receivedData?.let { checkAndUpdate(it.toInt()) }
     }
@@ -62,7 +63,6 @@ class DetailListeningActivity : AppCompatActivity() {
 
     private fun addNewAnswer(newAnswer: String) = arrayAnswers.add(newAnswer)
 
-
     fun replaceOrAddAnswer(newAnswer: String, number: Int) {
         if (number >= 0 && number < arrayAnswers.size) {
             arrayAnswers[number] = newAnswer
@@ -73,12 +73,10 @@ class DetailListeningActivity : AppCompatActivity() {
 
     fun getListQuestions() = arrayQuestions
 
-
     fun getQuantity() = quantity
 
-
     @RequiresApi(Build.VERSION_CODES.N)
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     private fun checkAndUpdate(questions: Int) {
         binding.textViewForget.paintFlags = binding.textViewForget.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
@@ -93,7 +91,7 @@ class DetailListeningActivity : AppCompatActivity() {
 
             quantity++
 
-            supportActionBar?.setHtmlTitle("$quantity/$receivedData")
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
 
             if (quantity == questions + 1) {
                 intent.apply {
@@ -116,7 +114,7 @@ class DetailListeningActivity : AppCompatActivity() {
 
             quantity++
 
-            supportActionBar?.setHtmlTitle("$quantity/$receivedData")
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
 
             if (quantity + 1 == receivedData?.toInt()) {
                 intent.apply {

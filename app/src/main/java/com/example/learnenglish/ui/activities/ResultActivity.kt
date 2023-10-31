@@ -19,7 +19,7 @@ class ResultActivity : AppCompatActivity() {
     private var isListeningActivity: String = "false"
     private lateinit var binding: ActivityResultBinding
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +34,7 @@ class ResultActivity : AppCompatActivity() {
         listAnswers = intent.getStringArrayExtra(ListAnswers)?.joinToString(". ") ?: ""
         isListeningActivity = intent.getStringExtra(isListening).toString()
 
-        supportActionBar?.setHtmlTitle(titleScreen!!)
+        supportActionBar?.setHtmlTitle(titleScreen!!, getColor(R.color.text))
         supportActionBar!!.setDisplayHomeAsUpEnabled(false)
 
         binding.textViewResult.text = "${result ?: "0"}/${questions ?: "0"}"

@@ -1,5 +1,6 @@
 package com.example.learnenglish.ui.activities
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var optionAdapter: OptionAdapter
     private lateinit var binding: ActivityMainBinding
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setHtmlTitle(getString(R.string.app_name))
+        supportActionBar?.setHtmlTitle(getString(R.string.app_name), getColor(R.color.text))
 
         val listOptions: List<String> = listOf("Vocabulary", "Practice", "Listening")
 

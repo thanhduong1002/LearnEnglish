@@ -8,6 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardDetail"
         android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/main"
         android:layout_height="@dimen/space_120dp"
         android:layout_margin="@dimen/space_10dp"
         app:cardCornerRadius="@dimen/space_10dp"
@@ -33,7 +34,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/result"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 
@@ -59,7 +60,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/your_answer"
-                    android:textColor="@color/black"
+                    android:textColor="@color/text"
                     android:textSize="17sp"
                     android:textStyle="bold" />
 

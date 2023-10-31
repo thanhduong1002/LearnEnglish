@@ -11,6 +11,7 @@
         android:layout_margin="@dimen/space_10dp"
         app:cardCornerRadius="@dimen/space_10dp"
         app:cardElevation="@dimen/space_10dp"
+        app:cardBackgroundColor="@color/main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,7 +29,7 @@
                 android:id="@+id/textEnglish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
@@ -52,7 +53,7 @@
                 android:id="@+id/textVietnamese"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 

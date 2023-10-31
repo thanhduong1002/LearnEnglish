@@ -11,6 +11,7 @@
         android:layout_height="@dimen/space_115dp"
         android:layout_margin="@dimen/space_10dp"
         app:cardCornerRadius="@dimen/space_10dp"
+        app:cardBackgroundColor="@color/main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +39,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textColor="@color/black"
+                android:textColor="@color/text"
                 android:textSize="17sp"
                 android:textStyle="bold" />
 

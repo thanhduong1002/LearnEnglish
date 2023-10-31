@@ -28,6 +28,7 @@
         android:textAllCaps="false"
         android:textColor="@color/text"
         android:textStyle="bold"
+        android:background="@color/main"
         app:layout_constraintBottom_toTopOf="@+id/textViewForget"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

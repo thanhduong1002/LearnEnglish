@@ -20,6 +20,7 @@
             android:id="@+id/textViewEnglish"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_marginEnd="@dimen/space_15dp"
             android:text="@string/english" />
 
@@ -48,6 +49,7 @@
             android:id="@+id/textViewMeaning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_marginEnd="@dimen/space_15dp"
             android:text="@string/vietnamese" />
 
@@ -76,6 +78,7 @@
             android:id="@+id/textViewPronunciation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_marginEnd="@dimen/space_15dp"
             android:text="@string/spelling" />
 
@@ -104,6 +107,7 @@
             android:id="@+id/textViewExample"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_marginEnd="@dimen/space_15dp"
             android:text="@string/example" />
 
@@ -132,6 +136,7 @@
             android:id="@+id/textViewExampleTranslation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_marginEnd="@dimen/space_15dp"
             android:text="@string/exampleTranslation" />
 
@@ -160,6 +165,7 @@
             android:id="@+id/textViewTopic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:layout_marginEnd="@dimen/space_15dp"
             android:text="@string/topic" />
 
@@ -178,6 +184,7 @@
         android:layout_marginBottom="50dp"
         android:text="@string/add"
         android:textColor="@color/text"
+        android:background="@color/main"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

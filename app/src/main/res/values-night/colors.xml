@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="main">#FEDBD0</color>
-    <color name="text">#442C2E</color>
-    <color name="highlight">#03A9F4</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="white">#FF000000</color>
+    <color name="main">#445D48</color>
+    <color name="text">#ffffff</color>
+    <color name="highlight">#F22C3D</color>
     <color name="selected">#EA7373</color>
     <color name="green">#00A655</color>
     <color name="red">#F22C3D</color>
