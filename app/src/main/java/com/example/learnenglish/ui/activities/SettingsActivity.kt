@@ -9,6 +9,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatDelegate
 import com.example.learnenglish.R
 import com.example.learnenglish.databinding.ActivitySettingsBinding
 import com.example.learnenglish.extensions.setHtmlTitle
@@ -20,7 +21,7 @@ class SettingsActivity : AppCompatActivity() {
     private var minute: Int = 0
     private lateinit var binding: ActivitySettingsBinding
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,8 +29,17 @@ class SettingsActivity : AppCompatActivity() {
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        supportActionBar?.setHtmlTitle(getString(R.string.settings))
+        supportActionBar?.setHtmlTitle(getString(R.string.settings), getColor(R.color.text))
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+
+        val sharedPreferences = getSharedPreferences("Mode", Context.MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        val nightMode = sharedPreferences.getBoolean("night", false)
+
+        if (nightMode) {
+            binding.materialSwitch.isChecked = true
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        }
 
         binding.numberPickerHour.minValue = 0
         binding.numberPickerHour.maxValue = 23
@@ -52,6 +62,17 @@ class SettingsActivity : AppCompatActivity() {
             intent.putExtra("minute", minute)
             sendBroadcast(intent)
 //            handleTime(hour, minute, this)
+        }
+        binding.materialSwitch.setOnCheckedChangeListener { _, isChecked ->
+            if (!isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+                editor.putBoolean("night", false)
+                editor.apply()
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+                editor.putBoolean("night", true)
+                editor.apply()
+            }
         }
     }
 

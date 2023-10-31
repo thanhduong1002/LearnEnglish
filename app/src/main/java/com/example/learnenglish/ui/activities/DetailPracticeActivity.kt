@@ -24,6 +24,7 @@ class DetailPracticeActivity : AppCompatActivity() {
     private var arrayAnswers: ArrayList<String> = arrayListOf("example")
     private lateinit var binding: ActivityDetailPracticeBinding
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +34,8 @@ class DetailPracticeActivity : AppCompatActivity() {
 
         receivedData = intent.getStringExtra(Quantity)
 
-        supportActionBar?.setHtmlTitle("$quantity/$receivedData")
+        supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         receivedData?.let { checkAndUpdate(it.toInt()) }
     }
@@ -76,7 +78,7 @@ class DetailPracticeActivity : AppCompatActivity() {
     fun getQuantity() = quantity
 
     @RequiresApi(Build.VERSION_CODES.N)
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ResourceType")
     private fun checkAndUpdate(questions: Int) {
         binding.textViewForget.paintFlags = binding.textViewForget.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
@@ -91,7 +93,7 @@ class DetailPracticeActivity : AppCompatActivity() {
 
             quantity++
 
-            supportActionBar?.setHtmlTitle("$quantity/$receivedData")
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
 
             if (quantity == questions + 1) {
                 intent.apply {
@@ -113,7 +115,7 @@ class DetailPracticeActivity : AppCompatActivity() {
 
             quantity++
 
-            supportActionBar?.setHtmlTitle("$quantity/$receivedData")
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
 
             if (quantity + 1 == receivedData?.toInt()) {
                 intent.apply {
@@ -137,7 +139,21 @@ class DetailPracticeActivity : AppCompatActivity() {
         }
 
         fragmentTransaction.replace(R.id.mainContainer, fragment)
+        fragmentTransaction.addToBackStack(null)
         fragmentTransaction.commit()
+    }
+
+    @SuppressLint("ResourceType")
+    @Deprecated("Deprecated in Java")
+    @RequiresApi(Build.VERSION_CODES.N)
+    override fun onBackPressed() {
+        if (quantity > 1) {
+            supportFragmentManager.popBackStack()
+            quantity--
+            supportActionBar?.setHtmlTitle("$quantity/$receivedData", getColor(R.color.text))
+        } else {
+            super.onBackPressed()
+        }
     }
 
     companion object {

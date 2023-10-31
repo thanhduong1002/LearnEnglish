@@ -79,7 +79,7 @@ class MultipleChoiceFragment : Fragment() {
 
             val example = detailVocabularyViewModel.getExampleByVietnamese(randomGroup[randomIndex])
             val english = detailVocabularyViewModel.getEnglishByVietnamese(randomGroup[randomIndex])
-            val spannable = highlightText(example, english, R.color.highlight)
+            val spannable = highlightText(example, english, R.color.main)
 
             detailPracticeActivity.setQuestion(randomGroup[randomIndex])
             detailPracticeActivity.addNewQuestion(english)

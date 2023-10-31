@@ -1,5 +1,6 @@
 package com.example.learnenglish.ui.activities
 
+import android.annotation.SuppressLint
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,6 +29,7 @@ class ViewDetailResultActivity : AppCompatActivity() {
     private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
     private lateinit var binding: ActivityViewDetailResultBinding
 
+    @SuppressLint("ResourceType")
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +49,7 @@ class ViewDetailResultActivity : AppCompatActivity() {
         listQuestions = intent.getStringExtra(ListQuestions) ?: ""
         listAnswers = intent.getStringExtra(ListAnswers) ?: ""
 
-        supportActionBar?.setHtmlTitle(titleScreen!!)
+        supportActionBar?.setHtmlTitle(titleScreen!!, getColor(R.color.text))
         supportActionBar?.setHomeAsUpIndicator(customIcon)
 
         val listQuestion = listQuestions?.let { changeStringToList(it) }

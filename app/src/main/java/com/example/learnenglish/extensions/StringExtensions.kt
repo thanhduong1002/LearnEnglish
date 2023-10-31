@@ -6,9 +6,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBar
 
 @RequiresApi(Build.VERSION_CODES.N)
-fun ActionBar.setHtmlTitle(title: String) {
+fun ActionBar.setHtmlTitle(title: String, color: Int) {
     this.title = Html.fromHtml(
-        "<font color=\"#442C2E\">$title</font>",
+        "<font color=\"$color\">$title</font>",
         Html.FROM_HTML_MODE_LEGACY
     )
 }
