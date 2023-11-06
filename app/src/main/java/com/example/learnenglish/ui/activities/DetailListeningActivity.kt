@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import com.example.learnenglish.R
 import com.example.learnenglish.databinding.ActivityDetailListeningBinding
 import com.example.learnenglish.extensions.setHtmlTitle
+import com.example.learnenglish.ui.fragments.ListenAndChooseFragment
 import com.example.learnenglish.ui.fragments.ListenAndWriteFragment
 
 class DetailListeningActivity : AppCompatActivity() {
@@ -118,6 +119,7 @@ class DetailListeningActivity : AppCompatActivity() {
 
             if (quantity + 1 == receivedData?.toInt()) {
                 intent.apply {
+                    putExtra(ResultActivity.Result, result.toString())
                     putExtra(ResultActivity.QuantityQuestion, questions.toString())
                 }. run {
                     startActivity(this)
@@ -133,7 +135,7 @@ class DetailListeningActivity : AppCompatActivity() {
         val fragment = if (number % 2 != 0) {
             ListenAndWriteFragment()
         } else {
-            ListenAndWriteFragment()
+            ListenAndChooseFragment()
         }
 
         fragmentTransaction.replace(R.id.mainContainer, fragment)
