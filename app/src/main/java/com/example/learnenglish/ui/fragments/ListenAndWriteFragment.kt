@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.content.ContextCompat
 import com.example.learnenglish.R
@@ -63,9 +64,15 @@ class ListenAndWriteFragment : Fragment() {
         GlobalScope.launch(Dispatchers.IO) {
             listEnglishes = detailVocabularyViewModel.getAllEnglishesWords()
 
+            val listEnglishToRemove = detailListeningActivity.getListQuestions().toList()
+            val newListEnglishes = listEnglishes.filter { englishWord ->
+                !listEnglishToRemove.any { englishWordToRemove ->
+                    englishWord == englishWordToRemove
+                }
+            }
             val random = Random()
-            val randomIndex = random.nextInt(listEnglishes.size)
-            val english = listEnglishes[randomIndex]
+            val randomIndex = random.nextInt(newListEnglishes.size)
+            val english = newListEnglishes[randomIndex]
             val vietnamese = detailVocabularyViewModel.getVietnameseByEnglish(english)
 
             textForSpeech = english
@@ -76,11 +83,6 @@ class ListenAndWriteFragment : Fragment() {
             withContext(Dispatchers.Main) {
                 binding.textViewSuggestion.text = "It has ${english.length} characters"
                 binding.textViewHint.text = vietnamese
-                binding.editAnswer.setOnFocusChangeListener { _ , hasFocus ->
-                    if (hasFocus) {
-                        binding.textViewSaved.visibility = View.INVISIBLE
-                    }
-                }
             }
         }
 
@@ -103,19 +105,29 @@ class ListenAndWriteFragment : Fragment() {
             isHint = !isHint
         }
 
-        binding.imageSaved.setOnClickListener {
-            binding.textViewSaved.visibility = View.VISIBLE
-
+        binding.editAnswer.setOnEditorActionListener { _, actionId, _ ->
             detailListeningActivity.setAnswer(binding.editAnswer.text.toString())
 
             quantity = detailListeningActivity.getQuantity()
 
             detailListeningActivity.replaceOrAddAnswer(binding.editAnswer.text.toString(), quantity)
 
-            val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputMethodManager.hideSoftInputFromWindow(binding.editAnswer.windowToken, 0)
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                hideKeyboard()
 
-            binding.editAnswer.clearFocus()
+                return@setOnEditorActionListener true
+            }
+            return@setOnEditorActionListener false
+        }
+
+        binding.frameLayout.setOnClickListener {
+            hideKeyboard()
+
+            detailListeningActivity.setAnswer(binding.editAnswer.text.toString())
+
+            quantity = detailListeningActivity.getQuantity()
+
+            detailListeningActivity.replaceOrAddAnswer(binding.editAnswer.text.toString(), quantity)
         }
     }
 
@@ -134,5 +146,11 @@ class ListenAndWriteFragment : Fragment() {
                 Log.e("TTS", "Failed")
             }
         }
+    }
+
+    private fun hideKeyboard() {
+        val inputMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+
+        inputMethodManager.hideSoftInputFromWindow(binding.editAnswer.windowToken, 0)
     }
 }

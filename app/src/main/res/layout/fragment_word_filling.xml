@@ -61,25 +61,6 @@
             android:textSize="18sp"
             android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/imageSaved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/space_35dp"
-            android:contentDescription="@string/save_button_image"
-            android:src="@drawable/save_icon"
-            tools:ignore="RedundantDescriptionCheck" />
-
-        <TextView
-            android:id="@+id/textViewSaved"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="@dimen/space_15dp"
-            android:text="@string/saved"
-            android:visibility="invisible" />
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

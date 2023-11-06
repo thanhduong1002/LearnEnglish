@@ -73,7 +73,6 @@ class WordFillingFragment : Fragment() {
                 binding.editAnswer.setOnFocusChangeListener { _ , hasFocus ->
                     if (hasFocus) {
                         binding.editAnswer.hint = replaceWithUnderscores(english)
-                        binding.textViewSaved.visibility = View.INVISIBLE
                     }
                 }
             }

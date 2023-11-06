@@ -7,11 +7,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.learnenglish.R
 import com.example.learnenglish.databinding.OptionItemBinding
-import com.example.learnenglish.ui.activities.DetailPracticeActivity
+import com.example.learnenglish.interfaces.IChooseAnswer
 
 class AnswerAdapter(
-    private var listAnswers: List<String>,
-    private val activity: DetailPracticeActivity
+    private var listAnswers: List<String>
 ) :
     RecyclerView.Adapter<AnswerAdapter.AnswerViewHolder>() {
 
@@ -19,9 +18,11 @@ class AnswerAdapter(
     private val normalColorRes = R.color.main
     private val selectedColorRes = R.color.selected
     private var quantity: Int = 0
+    private lateinit var listener: IChooseAnswer
 
-    fun setAnswersList(listAnswers: List<String>) {
+    fun setAnswersList(listAnswers: List<String>, listener: IChooseAnswer) {
         this.listAnswers = listAnswers
+        this.listener = listener
     }
 
     inner class AnswerViewHolder(val answerItemBinding: OptionItemBinding) :
@@ -62,11 +63,11 @@ class AnswerAdapter(
                 notifyItemChanged(position)
             }
 
-            activity.setAnswer(listAnswers[selectedPosition])
+            listener.onClickAnswer(listAnswers[selectedPosition])
 
-            quantity = activity.getQuantity()
+            quantity = listener.getQuantity()
 
-            activity.replaceOrAddAnswer(listAnswers[selectedPosition], quantity)
+            listener.replaceOrAddAnswer(listAnswers[selectedPosition], quantity)
         }
     }
 }

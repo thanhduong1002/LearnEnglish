@@ -17,6 +17,7 @@ import com.example.learnenglish.data.dao.DetailVocabularyDao
 import com.example.learnenglish.data.local.database.AppDatabase
 import com.example.learnenglish.data.repositories.DetailVocabularyRepository
 import com.example.learnenglish.databinding.FragmentMultipleChoiceBinding
+import com.example.learnenglish.interfaces.IChooseAnswer
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
 import com.example.learnenglish.ui.adapters.AnswerAdapter
 import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.Random
 
-class MultipleChoiceFragment : Fragment() {
+class MultipleChoiceFragment : Fragment(), IChooseAnswer {
     private lateinit var answerAdapter: AnswerAdapter
     private lateinit var database: AppDatabase
     private lateinit var detailVocabularyDao: DetailVocabularyDao
@@ -37,6 +38,7 @@ class MultipleChoiceFragment : Fragment() {
     private lateinit var randomGroup: List<String>
     private var randomIndex: Int = 0
     private lateinit var binding: FragmentMultipleChoiceBinding
+    private lateinit var detailPracticeActivity: DetailPracticeActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,9 +59,9 @@ class MultipleChoiceFragment : Fragment() {
         detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
         detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val detailPracticeActivity = requireActivity() as DetailPracticeActivity
+        detailPracticeActivity = requireActivity() as DetailPracticeActivity
 
-        answerAdapter = AnswerAdapter(emptyList(), detailPracticeActivity)
+        answerAdapter = AnswerAdapter(emptyList())
         binding.recyclerViewAnswer.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerViewAnswer.adapter = answerAdapter
 
@@ -86,7 +88,7 @@ class MultipleChoiceFragment : Fragment() {
             detailPracticeActivity.setAnswer("")
 
             withContext(Dispatchers.Main) {
-                answerAdapter.setAnswersList(randomGroup)
+                answerAdapter.setAnswersList(randomGroup, this@MultipleChoiceFragment)
                 answerAdapter.notifyDataSetChanged()
                 binding.textViewQuestion.text = spannable
             }
@@ -112,5 +114,17 @@ class MultipleChoiceFragment : Fragment() {
         }
 
         return spannable
+    }
+
+    override fun onClickAnswer(newAnswer: String) {
+        detailPracticeActivity.setAnswer(newAnswer)
+    }
+
+    override fun getQuantity(): Int {
+        return detailPracticeActivity.getQuantity()
+    }
+
+    override fun replaceOrAddAnswer(newAnswer: String, number: Int) {
+        detailPracticeActivity.replaceOrAddAnswer(newAnswer, number)
     }
 }
