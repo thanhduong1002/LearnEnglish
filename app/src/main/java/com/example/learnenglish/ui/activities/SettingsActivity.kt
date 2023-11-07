@@ -8,6 +8,8 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.learnenglish.R
@@ -57,11 +59,26 @@ class SettingsActivity : AppCompatActivity() {
             setMinute(newMinute)
         }
         binding.buttonSet.setOnClickListener {
+            val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val intent = Intent(this, MyBroadcastReceiver::class.java)
-            intent.putExtra("hour", hour)
-            intent.putExtra("minute", minute)
-            sendBroadcast(intent)
-//            handleTime(hour, minute, this)
+            val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+
+            val calendar = Calendar.getInstance()
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
+            calendar.set(Calendar.SECOND, 0)
+
+            val notificationTime = calendar.timeInMillis
+            val now = System.currentTimeMillis()
+
+            if (notificationTime <= now) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
+            }
+
+            val timeUntilNotification = calendar.timeInMillis - System.currentTimeMillis()
+            val timeDelay = SystemClock.elapsedRealtime() + timeUntilNotification
+            Log.d("time", "onCreate: $timeUntilNotification")
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME, timeDelay, pendingIntent)
         }
         binding.materialSwitch.setOnCheckedChangeListener { _, isChecked ->
             if (!isChecked) {
@@ -82,27 +99,5 @@ class SettingsActivity : AppCompatActivity() {
 
     private fun setMinute(newMinute: Int) {
         minute = newMinute
-    }
-
-    private fun handleTime(hour: Int, minute: Int, context: Context) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val notificationIntent = Intent("com.example.learnenglish.ALARM_ACTION")
-        val pendingIntent = PendingIntent.getBroadcast(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
-
-        val calendar = Calendar.getInstance()
-        calendar.set(Calendar.HOUR_OF_DAY, hour)
-        calendar.set(Calendar.MINUTE, minute)
-        calendar.set(Calendar.SECOND, 0)
-
-        val notificationTime = calendar.timeInMillis
-        val now = System.currentTimeMillis()
-
-        if (notificationTime <= now) {
-            calendar.add(Calendar.DAY_OF_YEAR, 1)
-        }
-
-        val timeUntilNotification = calendar.timeInMillis - System.currentTimeMillis()
-
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, timeUntilNotification, AlarmManager.INTERVAL_DAY, pendingIntent)
     }
 }

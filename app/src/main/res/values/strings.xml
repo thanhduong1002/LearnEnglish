@@ -46,4 +46,6 @@
     <string name="text_button_back_listen">Back to Listening</string>
     <string name="dark_mode">Dark mode:</string>
     <string name="select_the_meaning_of_the_listened_word">Select the meaning of the listened word.</string>
+    <string name="cancel">Cancel</string>
+    <string name="set">Set</string>
 </resources>
