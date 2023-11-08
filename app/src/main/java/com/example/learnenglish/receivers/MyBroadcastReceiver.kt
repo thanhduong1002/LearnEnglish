@@ -61,18 +61,28 @@ class MyBroadcastReceiver : BroadcastReceiver() {
 
         GlobalScope.launch(Dispatchers.IO) {
             englishWord = detailVocabularyViewModel.getRandomDetailVocabulary()
+
+            val builder = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_notification_icon)
+                .setContentTitle("Vocabulary")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            val bigTextStyle = NotificationCompat.BigTextStyle()
+
+            bigTextStyle.bigText(
+                "${englishWord.english} - ${englishWord.spelling}\n" +
+                        "\n"+
+                        "Meaning: ${englishWord.vietnamese}\n" +
+                        "\n"+
+                        "Example: ${englishWord.example}\n" +
+                        "\n"+
+                        "Translation: ${englishWord.exampleVN}"
+            )
+
+            builder.setStyle(bigTextStyle)
+
+            val notificationManager = NotificationManagerCompat.from(context)
+
+            notificationManager.notify(notificationId, builder.build())
         }
-
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_notification_icon)
-            .setContentTitle("Vocabulary")
-            .setContentText("${englishWord.english} - ${englishWord.spelling}" +
-                    "Meaning: ${englishWord.vietnamese}" +
-                    "Example: ${englishWord.example}" +
-                    "Translation: ${englishWord.exampleVN}")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-        val notificationManager = NotificationManagerCompat.from(context)
-
-        notificationManager.notify(notificationId, builder.build())
     }
 }

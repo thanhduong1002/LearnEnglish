@@ -3,6 +3,7 @@ package com.example.learnenglish.ui.activities
 import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.Dialog
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -14,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.preference.PreferenceManager
+import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -21,6 +23,7 @@ import android.view.Window.*
 import android.widget.Button
 import android.widget.NumberPicker
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.learnenglish.R
 import com.example.learnenglish.databinding.ActivityMainBinding
@@ -83,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.N)
     private fun showPopupDialog() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(FEATURE_NO_TITLE)
@@ -118,6 +122,12 @@ class MainActivity : AppCompatActivity() {
         setButton.setOnClickListener {
             handleSet()
 
+            if (!checkEnabledNotifications()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    showEnableNotificationsDialog()
+                }
+            }
+
             dialog.dismiss()
         }
 
@@ -135,7 +145,12 @@ class MainActivity : AppCompatActivity() {
     private fun handleSet() {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(this, MyBroadcastReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE)
+        val pendingIntent = PendingIntent.getBroadcast(
+            this,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
 
         val calendar = Calendar.getInstance()
         calendar.set(Calendar.HOUR_OF_DAY, hour)
@@ -153,5 +168,33 @@ class MainActivity : AppCompatActivity() {
         val timeDelay = SystemClock.elapsedRealtime() + timeUntilNotification
         Log.d("time", "onCreate: $timeUntilNotification")
         alarmManager.set(AlarmManager.ELAPSED_REALTIME, timeDelay, pendingIntent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showEnableNotificationsDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Enable Notifications")
+            .setMessage("Please enable notifications for the best experience.")
+            .setPositiveButton("Go to Settings") { _, _ ->
+                sharedPreferences.edit().putBoolean("notificationsEnabled", true).apply()
+
+                val intent = Intent().apply {
+                    action = Settings.ACTION_APP_NOTIFICATION_SETTINGS
+                    putExtra(Settings.EXTRA_APP_PACKAGE, packageName)
+                }
+                startActivity(intent)
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                dialog.dismiss()
+            }
+        builder.create().show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.N)
+    private fun checkEnabledNotifications(): Boolean {
+        val notificationManager =
+            getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
+        return notificationManager.areNotificationsEnabled()
     }
 }
