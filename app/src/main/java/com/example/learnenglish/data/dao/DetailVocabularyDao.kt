@@ -34,4 +34,7 @@ interface DetailVocabularyDao {
 
     @Query("SELECT vietnamese FROM detailvocabulary WHERE english = :english")
     fun getVietnameseByEnglish(english: String): String
+
+    @Query("SELECT * FROM detailvocabulary ORDER BY RANDOM() LIMIT 1")
+    fun getRandomDetailVocabulary(): DetailVocabulary
 }

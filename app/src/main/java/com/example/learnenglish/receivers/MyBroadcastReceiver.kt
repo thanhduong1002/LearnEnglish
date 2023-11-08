@@ -7,18 +7,29 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.learnenglish.R
+import com.example.learnenglish.data.dao.DetailVocabularyDao
+import com.example.learnenglish.data.local.database.AppDatabase
+import com.example.learnenglish.data.models.DetailVocabulary
+import com.example.learnenglish.data.repositories.DetailVocabularyRepository
+import com.example.learnenglish.ui.viewmodels.DetailVocabularyViewModel
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MyBroadcastReceiver : BroadcastReceiver() {
     private val notificationId = 1
-    override fun onReceive(context: Context, intent: Intent) {
-        val hour: Int = intent.getIntExtra("hour", 0)
-        val minute: Int = intent.getIntExtra("minute", 0)
+    private lateinit var database: AppDatabase
+    private lateinit var detailVocabularyDao: DetailVocabularyDao
+    private lateinit var detailVocabularyRepository: DetailVocabularyRepository
+    private lateinit var detailVocabularyViewModel: DetailVocabularyViewModel
+    private lateinit var englishWord: DetailVocabulary
 
-        Log.d("time", "$hour : $minute")
+    @OptIn(DelicateCoroutinesApi::class)
+    override fun onReceive(context: Context, intent: Intent) {
         showNotification(context)
     }
 
@@ -38,17 +49,40 @@ class MyBroadcastReceiver : BroadcastReceiver() {
     }
 
     @SuppressLint("MissingPermission")
+    @DelicateCoroutinesApi
     private fun showNotification(context: Context) {
         val channelId = "MyNotificationChannel"
         createNotificationChannel(context, channelId)
 
-        val builder = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_notification_icon)
-            .setContentTitle("Notification Title")
-            .setContentText("This is your notification content.")
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+        database = AppDatabase.getDatabase(context)
+        detailVocabularyDao = database.detailVocabularyDao()
+        detailVocabularyRepository = DetailVocabularyRepository(detailVocabularyDao)
+        detailVocabularyViewModel = DetailVocabularyViewModel(detailVocabularyRepository)
 
-        val notificationManager = NotificationManagerCompat.from(context)
-        notificationManager.notify(notificationId, builder.build())
+        GlobalScope.launch(Dispatchers.IO) {
+            englishWord = detailVocabularyViewModel.getRandomDetailVocabulary()
+
+            val builder = NotificationCompat.Builder(context, channelId)
+                .setSmallIcon(R.drawable.ic_notification_icon)
+                .setContentTitle("Vocabulary")
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            val bigTextStyle = NotificationCompat.BigTextStyle()
+
+            bigTextStyle.bigText(
+                "${englishWord.english} - ${englishWord.spelling}\n" +
+                        "\n"+
+                        "Meaning: ${englishWord.vietnamese}\n" +
+                        "\n"+
+                        "Example: ${englishWord.example}\n" +
+                        "\n"+
+                        "Translation: ${englishWord.exampleVN}"
+            )
+
+            builder.setStyle(bigTextStyle)
+
+            val notificationManager = NotificationManagerCompat.from(context)
+
+            notificationManager.notify(notificationId, builder.build())
+        }
     }
 }

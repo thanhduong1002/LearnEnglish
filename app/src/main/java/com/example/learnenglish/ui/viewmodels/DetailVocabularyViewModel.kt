@@ -26,4 +26,8 @@ class DetailVocabularyViewModel constructor(private val detailVocabularyReposito
     suspend fun getVietnameseByEnglish(english: String): String = withContext(Dispatchers.IO) {
         detailVocabularyRepository.getVietnameseByEnglish(english)
     }
+
+    suspend fun getRandomDetailVocabulary() = withContext(Dispatchers.IO) {
+        detailVocabularyRepository.getRandomDetailVocabulary()
+    }
 }
