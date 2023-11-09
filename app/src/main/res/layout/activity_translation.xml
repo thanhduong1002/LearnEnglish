@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.activities.TranslationActivity">
+
+    <TextView
+        android:id="@+id/textTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_20dp"
+        android:gravity="center"
+        android:padding="@dimen/space_5dp"
+        android:text="@string/language_translator"
+        android:textAlignment="center"
+        android:textColor="@color/text"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearFromTo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_35dp"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTitle">
+
+        <Spinner
+            android:id="@+id/idFromSpinner"
+            android:layout_width="@dimen/space_0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_3dp"
+            android:layout_weight="1"
+            android:padding="@dimen/space_3dp" />
+
+        <ImageView
+            android:layout_width="@dimen/space_0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:src="@drawable/ic_right_arrow"
+            tools:ignore="ContentDescription" />
+
+        <Spinner
+            android:id="@+id/idToSpinner"
+            android:layout_width="@dimen/space_0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/space_3dp"
+            android:layout_weight="1"
+            android:padding="@dimen/space_3dp" />
+
+    </LinearLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInput"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="@dimen/space_15dp"
+        android:hint="@string/source_text"
+        android:padding="@dimen/space_5dp"
+        android:textColorHint="@color/text"
+        app:hintTextColor="@color/text"
+        app:layout_constraintTop_toBottomOf="@id/linearFromTo">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editSource"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="textImeMultiLine|textMultiLine"
+            android:textColor="@color/text"
+            android:textColorHint="@color/text"
+            android:textSize="14sp"
+            tools:ignore="TextContrastCheck" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/textOr"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_20dp"
+        android:gravity="center"
+        android:text="@string/or"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/text"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/textInput" />
+
+    <ImageView
+        android:id="@+id/iconMic"
+        android:layout_width="@dimen/space_70dp"
+        android:layout_height="@dimen/space_70dp"
+        android:layout_marginTop="@dimen/space_10dp"
+        android:src="@drawable/mic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textOr"
+        app:tint="@color/text" />
+
+    <TextView
+        android:id="@+id/textSay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/say_something"
+        android:textAllCaps="false"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/iconMic" />
+
+    <Button
+        android:id="@+id/translateButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/space_20dp"
+        android:text="@string/translate"
+        android:textAllCaps="false"
+        android:textColor="@color/text"
+        app:layout_constraintTop_toBottomOf="@+id/textSay" />
+
+    <TextView
+        android:id="@+id/textViewResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_20dp"
+        android:gravity="center"
+        android:textColor="@color/green"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/translateButton" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

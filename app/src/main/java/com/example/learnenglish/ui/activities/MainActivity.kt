@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setHtmlTitle(getString(R.string.app_name), getColor(R.color.text))
 
-        val listOptions: List<String> = listOf("Vocabulary", "Practice", "Listening")
+        val listOptions: List<String> = listOf("Vocabulary", "Practice", "Listening", "Translation")
 
         optionAdapter = OptionAdapter(listOptions)
         binding.recyclerViewOptions.layoutManager = LinearLayoutManager(this)

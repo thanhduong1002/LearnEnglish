@@ -8,6 +8,7 @@ import com.example.learnenglish.databinding.OptionItemBinding
 import com.example.learnenglish.ui.activities.DetailPracticeActivity
 import com.example.learnenglish.ui.activities.ListeningActivity
 import com.example.learnenglish.ui.activities.PracticeActivity
+import com.example.learnenglish.ui.activities.TranslationActivity
 import com.example.learnenglish.ui.activities.VocabularyActivity
 
 class OptionAdapter(private var listOptions: List<String>) :
@@ -73,6 +74,14 @@ class OptionAdapter(private var listOptions: List<String>) :
                     intent = Intent(holder.itemView.context, ListeningActivity::class.java)
 
                     intent.putExtra(ListeningActivity.Title, item)
+
+                    holder.itemView.context.startActivity(intent)
+                }
+
+                "Translation" -> {
+                    intent = Intent(holder.itemView.context, TranslationActivity::class.java)
+
+                    intent.putExtra(TranslationActivity.Title, item)
 
                     holder.itemView.context.startActivity(intent)
                 }
