@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "231679347279",
+    "project_id": "translator-app-3af22",
+    "storage_bucket": "translator-app-3af22.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:231679347279:android:ecca02afb9d0822ef6b83a",
+        "android_client_info": {
+          "package_name": "com.example.learnenglish"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBTVIyO9Y4-Cw_KVm_trkBgblViCn1E9D4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
